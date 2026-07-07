@@ -1,6 +1,6 @@
 <div class="flex flex-col h-full w-full">
     <header class="h-15 w-screen flex justify-center text-white shrink-0">
-        <div class="h-full w-[30vh] flex justify-around flex-col"> 
+        <div class="h-full w-[45vh] flex justify-around flex-col"> 
             <div class="w-full flex justify-around pt-3">
                 <button
                     routerLink="/auth/login"
@@ -24,7 +24,7 @@
     </header>
 
     <main class="flex-1 overflow-y-auto flex justify-center items-center">
-        <div class="w-[35vw] h-[50vh] flex flex-col justify-around items-center">
+        <div class="w-[60vw] flex flex-col gap-10 justify-around items-center">
             @if(filter() === 'login'){
                 <div class="flex flex-col items-center gap-8">
                     <p class="text-4xl text-white">Welcome back</p>
@@ -67,7 +67,7 @@
                         LOG IN
                     </button>
 
-                    <a href="" class="text-[#767676]">FORGOT PASSWORD</a>
+                    <a routerLink="/auth/forgot-password" class="text-[#767676]">FORGOT PASSWORD</a>
                 </div>
             }
             @else if (filter() === "signup") {
@@ -113,6 +113,38 @@
                     </button>
 
                     <a routerLink="/auth/login" class="text-[#767676]">I HAVE AN ACCOUNT</a>
+                </div>
+            }
+            @else if (filter() === "forgot-password") {
+                <div class="flex flex-col items-center gap-8">
+                    <p class="text-4xl text-white">Forgor password</p>
+                    <p class="text-white text-[1.1em]">We will sent you an email with further instructions</p>
+                </div>
+
+                <div class="flex flex-col w-full">
+                    <mat-form-field 
+                        appearance="outline"
+                        class="w-ful"
+                    >
+                        <mat-label>Email</mat-label>
+  
+                        <input 
+                            matInput  
+                            placeholder="example@mail.com"
+                        >
+                    </mat-form-field>
+
+                </div>
+
+                <div class="flex flex-col items-center gap-5">
+                    <button 
+                        matButton="filled"
+                        class="bg-[#C63031]! px-14! py-6!"
+                    >
+                        RESET PASSWORD
+                    </button>
+
+                    <a routerLink="/auth/login" class="text-[#767676]">CANCEL</a>
                 </div>
             }
         </div>
