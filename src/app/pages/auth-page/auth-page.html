@@ -1,27 +1,32 @@
-<header class="h-17 w-screen flex justify-center text-white">
+<header class="h-15 w-screen flex justify-center text-white">
     <div class="h-full w-[30vh] flex justify-around flex-col"> 
         <div class="w-full flex justify-around pt-3">
             <button
                 routerLink="/auth/login"
-                routerLinkActive="text-red-500"
+                routerLinkActive="text-[#C63031]"
             >
                 LOG IN
             </button>
 
             <button
                 routerLink="/auth/signup"
-                routerLinkActive="text-red-500"
+                routerLinkActive="text-[#C63031]"
             >
                 SIGN UP
             </button>
         </div>
 
         <div [class.translate-x-full]="filter() === 'signup'"
-           class=" w-1/2 h-0.5 bg-red-500 transition-transform duration-300 ease-out">
+           class=" w-1/2 h-0.5 bg-[#C63031] transition-transform duration-300 ease-out">
         </div>
     </div>
 </header>
 
 <main>
-
+    @if(filter() === 'login'){
+        login
+    }
+    @else if (filter() === 'signup') {
+        signup
+    }
 </main>
