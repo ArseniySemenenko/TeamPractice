@@ -70,6 +70,51 @@
                     <a href="" class="text-[#767676]">FORGOT PASSWORD</a>
                 </div>
             }
+            @else if (filter() === "signup") {
+                <div class="flex flex-col items-center gap-8">
+                    <p class="text-4xl text-white">Register now</p>
+                    <p class="text-white text-[1.1em]">Welcome! Sign up to continue</p>
+                </div>
+
+                <div class="flex flex-col w-full">
+                    <mat-form-field 
+                        appearance="outline"
+                        class="w-ful"
+                    >
+                        <mat-label>Email</mat-label>
+  
+                        <input 
+                            matInput  
+                            placeholder="example@mail.com"
+                        >
+                    </mat-form-field>
+
+
+                    <mat-form-field 
+                        appearance="outline"
+                        class="w-ful"
+                    >
+                        <mat-label>Password</mat-label>
+  
+                        <input 
+                            matInput  
+                            type="password"
+                            placeholder="Enter your password"
+                        >
+                    </mat-form-field>
+                </div>
+
+                <div class="flex flex-col items-center gap-5">
+                    <button 
+                        matButton="filled"
+                        class="bg-[#C63031]! px-14! py-6!"
+                    >
+                        CREATE ACCOUNT
+                    </button>
+
+                    <a routerLink="/auth/login" class="text-[#767676]">I HAVE AN ACCOUNT</a>
+                </div>
+            }
         </div>
     </main>
 </div>
