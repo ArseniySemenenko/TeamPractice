@@ -1,1 +1,27 @@
-<p>auth-page works!</p>
+<header class="h-17 w-screen flex justify-center text-white">
+    <div class="h-full w-[30vh] flex justify-around flex-col"> 
+        <div class="w-full flex justify-around pt-3">
+            <button
+                routerLink="/auth/login"
+                routerLinkActive="text-red-500"
+            >
+                LOG IN
+            </button>
+
+            <button
+                routerLink="/auth/signup"
+                routerLinkActive="text-red-500"
+            >
+                SIGN UP
+            </button>
+        </div>
+
+        <div [class.translate-x-full]="filter() === 'signup'"
+           class=" w-1/2 h-0.5 bg-red-500 transition-transform duration-300 ease-out">
+        </div>
+    </div>
+</header>
+
+<main>
+
+</main>
