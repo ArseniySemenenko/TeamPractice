@@ -6,17 +6,45 @@
 @use '@angular/material' as mat;
 
 html {
+  color-scheme: light dark;
   height: 100%;
   @include mat.theme(
     (
       color: (
-        primary: mat.$rose-palette,
+        primary: mat.$red-palette,
         tertiary: mat.$red-palette,
       ),
       typography: Roboto,
       density: 0,
     )
   );
+
+  @include mat.button-overrides((
+      filled-container-color: #C63031,
+  ));
+
+  @include mat.form-field-overrides((
+    outlined-container-shape: 0px, 
+    filled-container-shape: 0px, 
+
+    outlined-label-text-color: #C0C0C0,
+
+    // Толщина рамки в обычном состоянии (например, делаем жирнее — 2px)
+    outlined-outline-width: 1px,
+    // Толщина рамки при фокусе (когда пользователь пишет внутри)
+    outlined-focus-outline-width: 1px,
+
+    outlined-outline-color: #767676,
+    outlined-hover-outline-color: #fff,
+
+    outlined-input-text-color: #ffffff,
+    outlined-input-text-placeholder-color: #C0C0C0,
+    outlined-hover-label-text-color: #C0C0C0,
+  ));
+
+  @include mat.icon-overrides((
+    color: #ffffff
+  ));
 }
 
 body {

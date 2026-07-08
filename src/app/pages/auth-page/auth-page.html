@@ -1,6 +1,6 @@
-<div class="flex flex-col h-full w-full">
-    <header class="h-15 w-screen flex justify-center text-white shrink-0">
-        <div class="h-full w-[45vh] flex justify-around flex-col"> 
+<div class="flex flex-col h-full w-full font-light">
+    <header [class]="(filter() === 'login' || filter() === 'signup') ? 'visible' : 'hidden'" class="h-15 w-screen flex justify-center text-white shrink-0">
+        <div class="h-full w-75 flex justify-around flex-col"> 
             <div class="w-full flex justify-around pt-3">
                 <button
                     routerLink="/auth/login"
@@ -24,10 +24,10 @@
     </header>
 
     <main class="flex-1 overflow-y-auto flex justify-center items-center">
-        <div class="w-[50vw] flex flex-col gap-10 justify-around items-center">
+        <div class="w-[550px] min-w-[300px] px-[15px] flex flex-col gap-10 justify-around items-center">
             @if(filter() === 'login'){
                 <div class="flex flex-col items-center gap-8">
-                    <p class="text-4xl text-white">Welcome back</p>
+                    <p class="text-[35px] text-white">Welcome back</p>
                     <p class="text-white text-[1.1em]">Hello again! Log in to continue</p>
                 </div>
 
@@ -53,16 +53,28 @@
   
                         <input 
                             matInput  
-                            type="password"
+                            [type] = "hidePassword() ? 'password' : 'text'"
                             placeholder="Enter your password"
                         >
+
+                        <button
+                            mat-icon-button
+                            matSuffix
+                            type="button"
+                            (click)="hidePassword.update(val => !val)"
+                            [attr.aria-label]="hidePassword() ? 'Show password' : 'Hide password'"
+                            [attr.aria-pressed]="!hidePassword()"
+                            class="text-[#767676]! hover:text-white!"
+                        >
+                            <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
                     </mat-form-field>
                 </div>
 
                 <div class="flex flex-col items-center gap-5">
                     <button 
                         matButton="filled"
-                        class="bg-[#C63031]! px-23! py-6!"
+                        class="px-23! py-6!"
                     >
                         LOG IN
                     </button>
