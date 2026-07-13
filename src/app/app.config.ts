@@ -9,18 +9,23 @@ import { InMemoryCache } from '@apollo/client';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes , withComponentInputBinding()),
     provideHttpClient(),
-    provideApollo(() => {
-      const httpLink = inject(HttpLink);
 
+    provideApollo(() => {
+
+      const httpLink = inject(HttpLink);
+      
       return {
         link: httpLink.create({
-          uri: '<%= endpoint %>',
+          uri: 'http://localhost:3001/api/graphql',
         }),
         cache: new InMemoryCache(),
       };
-    }),
+    })
+
+
   ],
 };

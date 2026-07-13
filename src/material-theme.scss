@@ -21,6 +21,7 @@ html {
 
   @include mat.button-overrides((
       filled-container-color: #C63031,
+      
   ));
 
   @include mat.form-field-overrides((
@@ -28,7 +29,6 @@ html {
     filled-container-shape: 0px, 
 
     outlined-label-text-color: #C0C0C0,
-
     // Толщина рамки в обычном состоянии (например, делаем жирнее — 2px)
     outlined-outline-width: 1px,
     // Толщина рамки при фокусе (когда пользователь пишет внутри)
