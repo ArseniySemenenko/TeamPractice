@@ -1,0 +1,46 @@
+<main class="flex h-full w-full">
+    <div class="w-50 h-full">
+        <div class="flex flex-col justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
+            <div 
+                class="w-full h-[56px] flex items-center hover:cursor-pointer"
+                routerLink="/main/employees"
+                routerLinkActive="bg-[#FFFFFF14]"
+            >
+                <img src="employees.svg" height="24px" width="24px" class="mx-[15px]">
+                <p>Employees</p>
+            </div>
+
+            <div 
+                class="w-full h-[56px] flex items-center hover:cursor-pointer"
+                routerLink="/main/skills"
+                routerLinkActive="bg-[#FFFFFF14]"
+            >
+                <img src="skills.svg" height="24px" width="24px" class="mx-[15px]">
+                <p>Skills</p>
+            </div>
+
+            <div 
+                class="w-full h-[56px] flex items-center hover:cursor-pointer"
+                routerLink="/main/languages"
+                routerLinkActive="bg-[#FFFFFF14]"
+            >
+                <img src="languages.svg" height="24px" width="24px" class="mx-[15px]">
+                <p>Languages</p>
+            </div>
+
+            <div 
+                class="w-full h-[56px] flex items-center hover:cursor-pointer"
+                routerLink="/main/cvs"
+                routerLinkActive="bg-[#FFFFFF14]"
+            >
+                <img src="cvs.svg" height="24px" width="24px" class="mx-[15px]">
+                <p>CVs</p>
+            </div>
+        </div>
+    </div>
+    <div class="w-full">
+        <div class="w-full h-[44px]">
+            <p class="text-[#FFFFFFB2] pl-[20px] pt-[16px] text-[16px]">{{filter() | firstLetterUpper}}</p>
+        </div>
+    </div>
+</main>
