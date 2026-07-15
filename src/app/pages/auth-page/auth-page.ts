@@ -7,10 +7,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService, LoginArgs } from '../../services/auth-service';
 import { AuthInput } from 'cv-graphql';
 import { FormsModule } from '@angular/forms';
+import {MatTabsModule} from '@angular/material/tabs';
 
 @Component({
   selector: 'app-auth-page',
-  imports: [FormsModule, RouterLink, RouterLinkActive, MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, RouterOutlet],
+  imports: [MatTabsModule , FormsModule, RouterLink, RouterLinkActive, MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, RouterOutlet],
   templateUrl: './auth-page.html',
   styleUrl: './auth-page.css',
 })

@@ -19,6 +19,27 @@ html {
     )
   );
 
+  @include mat.tabs-overrides((
+    active-label-text-color: #C63031,
+    active-focus-label-text-color: #C63031,
+    active-hover-label-text-color: #C63031,
+    inactive-focus-label-text-color: #C63031,
+
+    inactive-hover-label-text-color: white,
+    inactive-label-text-color: white,
+
+    inactive-ripple-color: none,
+    active-ripple-color: #C63031,
+
+    
+
+    
+
+    divider-height: 0px,
+    container-height: 56px,
+
+  ));
+
   @include mat.button-overrides((
       filled-container-color: #C63031,
       

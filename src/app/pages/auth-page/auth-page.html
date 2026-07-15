@@ -1,29 +1,51 @@
-<div class="flex flex-col h-full w-full font-light">
-    <header class="h-15 w-screen flex justify-center text-white shrink-0">
-        <div class="h-full w-75 flex justify-around flex-col"> 
-            <div class="w-full flex justify-around pt-3">
-                <button
-                    routerLink="/auth/login"
-                    routerLinkActive="text-[#C63031]"
-                >
-                    LOG IN
-                </button>
+<!-- <div class="flex flex-col h-full w-full font-light">
+    <header class="h-15 w-screen flex justify-center shrink-0">
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+            <a 
+                mat-tab-link 
+                routerLink="/auth/login"
+            >Log In</a>
 
-                <button
-                    routerLink="/auth/signup"
-                    routerLinkActive="text-[#C63031]"
-                >
-                    SIGN UP
-                </button>
-            </div>
-
-            <div [class.translate-x-full]="filter() === 'signup'"
-                class=" w-1/2 h-0.5 bg-[#C63031] transition-transform duration-300 ease-out">
-            </div>
-        </div>
+            <a 
+                mat-tab-link 
+                routerLink="/auth/signup"
+            >Sign Up</a>
+        </nav>
+        <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
     </header>
 
     <main class="flex-1 overflow-y-auto flex justify-center items-center">
         <router-outlet></router-outlet>
+    </main>
+</div> -->
+
+<div class="flex flex-col h-full w-full font-light">
+    <header class="h-15 w-screen flex justify-center shrink-0">
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel">
+            <a 
+                class="px-13!"
+                mat-tab-link 
+                routerLink="/auth/login"
+                routerLinkActive
+                #rla1="routerLinkActive"
+                [active]="rla1.isActive"
+            >LOG IN</a>
+
+            <a 
+                class="px-13!"
+                mat-tab-link 
+                routerLink="/auth/signup"
+                routerLinkActive
+                #rla2="routerLinkActive"
+                [active]="rla2.isActive"
+            >SIGN UP</a>
+        </nav>
+
+        <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+    </header>
+
+    <main class="flex-1 overflow-y-auto flex justify-center items-center">
+        <!-- mat-tab-nav-panel должен оборачивать router-outlet, а не находиться внутри header -->
+            <router-outlet></router-outlet>
     </main>
 </div>
