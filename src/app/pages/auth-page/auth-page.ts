@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from "@angular/router";
+import { RouterLink, RouterLinkActive, RouterOutlet } from "@angular/router";
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-auth-page',
-  imports: [FormsModule , RouterLink, RouterLinkActive, MatButtonModule , MatFormFieldModule , MatIconModule , MatInputModule],
+  imports: [FormsModule, RouterLink, RouterLinkActive, MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, RouterOutlet],
   templateUrl: './auth-page.html',
   styleUrl: './auth-page.css',
 })
