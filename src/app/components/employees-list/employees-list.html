@@ -1,7 +1,13 @@
 <main class="bg-amber-400 w-full h-full px-5">
     <header>
-        <div class="w-full h-[56px] bg-red-500">
-
-        </div>
+        
     </header>
+    <main>
+        <table mat-table>
+            <ng-container matColumnDef="demo-position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef=""> {{2}} </td>
+            </ng-container>
+        </table>
+    </main>
 </main>

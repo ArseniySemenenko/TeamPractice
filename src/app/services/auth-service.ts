@@ -53,7 +53,7 @@ export class AuthService {
     readonly accessToken = this._accessToken.asReadonly();
     readonly currentUser = this._currentUser.asReadonly();
 
-    readonly isAuth = computed(() => this._accessToken());
+    readonly isAuth = computed(() => this._accessToken() !== null);
 
     login(args: AuthInput): Observable<LoginResult>{
         return this.apollo.query<LoginResult , LoginArgs>({
@@ -68,7 +68,15 @@ export class AuthService {
                 }
                 return response.data; 
             }),
-            tap((authResult) => console.log(authResult))
+            tap( (authResult) => {
+              console.log('isAuth: ' , this.isAuth());
+              this._accessToken.set(authResult.login.access_token);
+              this._currentUser.set(authResult.login.user);
+              console.log('access token: ', this.accessToken());
+              console.log('isAuth: ' , this.isAuth());
+              console.log('user: ' , this.currentUser());
+              this.router.navigate(['main/employees']);
+            }) 
       );
     }
 
@@ -84,7 +92,12 @@ export class AuthService {
                 }
                 return response.data; 
             }),
-            tap((authResult) => console.log(authResult))
+            tap((authResult) => {
+              console.log('isAuth: ' , this.isAuth());
+              this._accessToken.set(authResult.signup.access_token);
+              console.log('access token: ', this.accessToken());
+              console.log('isAuth: ' , this.isAuth());
+            })
       );
     }
 

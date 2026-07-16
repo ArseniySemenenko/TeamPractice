@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import {MatTableModule} from '@angular/material/table';
 
 @Component({
   selector: 'app-employees-list',
-  imports: [],
+  imports: [MatTableModule],
   templateUrl: './employees-list.html',
   styleUrl: './employees-list.css',
 })

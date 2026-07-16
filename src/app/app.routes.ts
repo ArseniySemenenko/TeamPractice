@@ -6,10 +6,9 @@ import { SkillsList } from './components/skills-list/skills-list';
 import { Login } from './components/login/login';
 import { Signup } from './components/signup/signup';
 import { Forgot } from './components/forgot/forgot';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
-    //{path: "auth/:filter" , component: AuthPage},
-
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
     {path: "main" , redirectTo: "main/employees" , pathMatch: 'full'},
 
@@ -19,15 +18,14 @@ export const routes: Routes = [
             {path: 'signup' , component: Signup},
         ]
     },
-
     {path: 'forgot-password' , component: Forgot},
-
-    //{path: "main/:filter" , component: MainPage},
 
     {path: "main" , component: MainPage, 
         children:[
             {path: 'employees' , component: EmployeesList},
             {path: 'skills' , component: SkillsList},
-        ]
+        ],
+        
+        canActivate: [authGuard]
     },
 ];

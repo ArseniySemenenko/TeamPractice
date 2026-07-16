@@ -3,10 +3,9 @@ import { Router, RouterLink, RouterLinkActive, RouterOutlet , NavigationEnd } fr
 import { FirstLetterUpperPipe } from '../../pipes/first-letter-upper-pipe';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map , pipe} from 'rxjs';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 type routePath = 'employees' | 'skills' | 'languages' | 'cvs';
-
 function isRoutePath(value: string): value is routePath {
   return value === 'employees' ||
          value === 'skills' ||
@@ -16,7 +15,7 @@ function isRoutePath(value: string): value is routePath {
 
 @Component({
   selector: 'app-main-page',
-  imports: [RouterLink, RouterLinkActive, FirstLetterUpperPipe, RouterOutlet],
+  imports: [MatSidenavModule , RouterLink, RouterLinkActive, FirstLetterUpperPipe, RouterOutlet],
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })
