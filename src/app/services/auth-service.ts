@@ -4,6 +4,7 @@ import { Apollo , gql } from 'apollo-angular';
 import type { AuthInput, AuthResult, ForgotPasswordInput} from 'cv-graphql';
 import { Observable , map , tap} from 'rxjs';
 import { JwtService } from './jwt-service';
+import { TokensService } from './tokens-service';
 
 
 export type LoginArgs = { auth: AuthInput };
@@ -17,8 +18,6 @@ export const LOGIN = gql`
   query Login($auth: AuthInput!) {
   login(auth: $auth) {
     access_token
-    
-    
     refresh_token
     user {
       id
@@ -48,14 +47,13 @@ export class AuthService {
     private readonly apollo = inject(Apollo);
     private readonly router = inject(Router);
     private readonly jwt = inject(JwtService);
+    private readonly tokensService = inject(TokensService);
 
-    private _accessToken = signal<string>("");
     private _currentUser = signal<any | null>(null);
 
-    readonly accessToken = this._accessToken.asReadonly();
     readonly currentUser = this._currentUser.asReadonly();
 
-    readonly isAuth = computed(() => this._accessToken() !== "");
+    readonly isAuth = computed(() => this.tokensService.getAccesToken() !== "");
 
     login(args: AuthInput): Observable<LoginResult>{
         return this.apollo.query<LoginResult , LoginArgs>({
@@ -72,10 +70,11 @@ export class AuthService {
             }),
             tap( (authResult) => {
               console.log('isAuth: ' , this.isAuth());
-              this._accessToken.set(authResult.login.access_token);
+              //this.accessToken.set(authResult.login.access_token);
+              this.tokensService.setTokens(authResult.login.access_token , authResult.login.refresh_token);
               this._currentUser.set(authResult.login.user);
-              console.log('token exp: ' , this.jwt.getTokenExpiry(this.accessToken()));
-              console.log('access token: ', this.accessToken());
+              console.log('token exp: ' , this.jwt.getTokenExpiry(this.tokensService.getAccesToken()));
+              console.log('access token: ', this.tokensService.getAccesToken());
               console.log('isAuth: ' , this.isAuth());
               console.log('user: ' , this.currentUser());
               this.router.navigate(['main/employees']);
@@ -97,8 +96,8 @@ export class AuthService {
             }),
             tap((authResult) => {
               console.log('isAuth: ' , this.isAuth());
-              this._accessToken.set(authResult.signup.access_token);
-              console.log('access token: ', this.accessToken());
+              //this.tokensService.accessToken.set(authResult.signup.access_token);
+             //console.log('access token: ', this.accessToken());
               console.log('isAuth: ' , this.isAuth());
             })
       );
