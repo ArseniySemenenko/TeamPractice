@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Apollo , gql } from 'apollo-angular';
 import type { AuthInput, AuthResult, ForgotPasswordInput} from 'cv-graphql';
 import { Observable , map , tap} from 'rxjs';
+import { JwtService } from './jwt-service';
 
 
 export type LoginArgs = { auth: AuthInput };
@@ -46,14 +47,15 @@ export const FORGOT = gql`
 export class AuthService {
     private readonly apollo = inject(Apollo);
     private readonly router = inject(Router);
+    private readonly jwt = inject(JwtService);
 
-    private _accessToken = signal<string | null>(null);
+    private _accessToken = signal<string>("");
     private _currentUser = signal<any | null>(null);
 
     readonly accessToken = this._accessToken.asReadonly();
     readonly currentUser = this._currentUser.asReadonly();
 
-    readonly isAuth = computed(() => this._accessToken() !== null);
+    readonly isAuth = computed(() => this._accessToken() !== "");
 
     login(args: AuthInput): Observable<LoginResult>{
         return this.apollo.query<LoginResult , LoginArgs>({
@@ -72,6 +74,7 @@ export class AuthService {
               console.log('isAuth: ' , this.isAuth());
               this._accessToken.set(authResult.login.access_token);
               this._currentUser.set(authResult.login.user);
+              console.log('token exp: ' , this.jwt.getTokenExpiry(this.accessToken()));
               console.log('access token: ', this.accessToken());
               console.log('isAuth: ' , this.isAuth());
               console.log('user: ' , this.currentUser());

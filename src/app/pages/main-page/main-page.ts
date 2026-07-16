@@ -4,6 +4,7 @@ import { FirstLetterUpperPipe } from '../../pipes/first-letter-upper-pipe';
 import { ActivatedRoute } from '@angular/router';
 import { filter, map , pipe} from 'rxjs';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { AuthService } from '../../services/auth-service';
 
 type routePath = 'employees' | 'skills' | 'languages' | 'cvs';
 function isRoutePath(value: string): value is routePath {
@@ -23,6 +24,8 @@ export class MainPage implements OnInit{
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+
+  authService = inject(AuthService);
 
   ngOnInit(){
 
