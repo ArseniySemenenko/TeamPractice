@@ -7,6 +7,7 @@ import { Login } from './components/login/login';
 import { Signup } from './components/signup/signup';
 import { Forgot } from './components/forgot/forgot';
 import { authGuard } from './guards/auth-guard';
+import { mainGuard } from './guards/main-guard';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -16,7 +17,8 @@ export const routes: Routes = [
         children:[
             {path: 'login' , component: Login},
             {path: 'signup' , component: Signup},
-        ]
+        ],
+        canActivate: [authGuard],
     },
     {path: 'forgot-password' , component: Forgot},
 
@@ -26,6 +28,6 @@ export const routes: Routes = [
             {path: 'skills' , component: SkillsList},
         ],
         
-        canActivate: [authGuard]
+        canActivate: [mainGuard],
     },
 ];

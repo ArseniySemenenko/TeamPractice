@@ -19,10 +19,10 @@ export class JwtService {
         }
     }   
 
-    getTokenExpiry(token: string): string | null{
+    getTokenExpiry(token: string): number | null{
         const decoded = this.decodeToken(token);
         if (!decoded || !decoded.exp) return null;
         console.log('token exp: ' , String(new Date(decoded.exp * 1000)));
-        return String(new Date(decoded.exp * 1000));
+        return Number(new Date(decoded.exp * 1000));
     }
 }

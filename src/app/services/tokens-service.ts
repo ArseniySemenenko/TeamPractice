@@ -55,9 +55,13 @@ export class TokensService {
 
     //Check is exp == now, and update if need
     checkExpAndUpdate(){
-        if(this.jwt.getTokenExpiry(this._accessToken()) === String(Date.now())){
-            console.log('udpated tokens');
-            this.updateTokens();
+        //do <=
+        let exp = this.jwt.getTokenExpiry(this._accessToken());
+        if(exp){
+            if(exp <= Date.now()){
+                console.log('udpated tokens');
+                this.updateTokens();
+            }
         }
     }
 }

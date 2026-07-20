@@ -49,9 +49,9 @@ export class AuthService {
     private readonly jwt = inject(JwtService);
     private readonly tokensService = inject(TokensService);
 
-    private _currentUser = signal<any | null>(null);
+    private _currentUserId = signal<number | null>(null);
 
-    readonly currentUser = this._currentUser.asReadonly();
+    readonly currentUserId = this._currentUserId.asReadonly();
 
     readonly isAuth = computed(() => this.tokensService.getAccesToken() !== "");
 
@@ -72,11 +72,11 @@ export class AuthService {
               console.log('isAuth: ' , this.isAuth());
               //this.accessToken.set(authResult.login.access_token);
               this.tokensService.setTokens(authResult.login.access_token , authResult.login.refresh_token);
-              this._currentUser.set(authResult.login.user);
+              this._currentUserId.set(Number(authResult.login.user.id));
               console.log('token exp: ' , this.jwt.getTokenExpiry(this.tokensService.getAccesToken()));
               console.log('access token: ', this.tokensService.getAccesToken());
               console.log('isAuth: ' , this.isAuth());
-              console.log('user: ' , this.currentUser());
+              console.log('user: ' , this.currentUserId());
               this.router.navigate(['main/employees']);
             }) 
       );
@@ -96,9 +96,14 @@ export class AuthService {
             }),
             tap((authResult) => {
               console.log('isAuth: ' , this.isAuth());
-              //this.tokensService.accessToken.set(authResult.signup.access_token);
-             //console.log('access token: ', this.accessToken());
+              //this.accessToken.set(authResult.login.access_token);
+              this.tokensService.setTokens(authResult.signup.access_token , authResult.signup.refresh_token);
+              this._currentUserId.set(Number(authResult.signup.user));
+              console.log('token exp: ' , this.jwt.getTokenExpiry(this.tokensService.getAccesToken()));
+              console.log('access token: ', this.tokensService.getAccesToken());
               console.log('isAuth: ' , this.isAuth());
+              console.log('user: ' , this.currentUserId());
+              this.router.navigate(['main/employees']);
             })
       );
     }

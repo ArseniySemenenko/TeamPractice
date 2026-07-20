@@ -66,6 +66,15 @@ html {
   @include mat.icon-overrides((
     color: #ffffff
   ));
+
+  @include mat.table-overrides((
+    background-color: #353535,
+    row-item-outline-color: #FFFFFF14,
+    row-item-label-text-color: white,
+    header-headline-color: white,
+
+    row-item-container-height: 73px,
+  ));
 }
 
 body {

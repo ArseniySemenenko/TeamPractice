@@ -20,8 +20,8 @@ export class Login {
   private readonly authService = inject(AuthService);
 
   //form signals
-  email = signal<string>('');
-  password = signal<string>('');
+  email = signal<string>('admin@example.com');
+  password = signal<string>('admin123');
   //is password hidden
   hidePassword = signal<boolean>(true);
 

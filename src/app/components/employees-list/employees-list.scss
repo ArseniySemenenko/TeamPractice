@@ -1,0 +1,18 @@
+.mat-mdc-form-field {
+  --mat-form-field-container-height: 100px; /* Регулирует общую высоту */
+  --mat-mdc-form-field-container-vertical-padding: 2px; /* Вертикальные отступы инпута */
+}
+
+
+.mat-mdc-input-element {
+  display: flex;
+  align-items: center; 
+}
+
+.mat-mdc-form-field-type-mat-input {
+  /* Цвет фона в обычном состоянии */
+  --mdc-filled-tonal-form-field-container-color: #f0f4f8;
+  
+  /* Цвет фона при наведении (hover) */
+  --mdc-filled-tonal-form-field-hover-container-color: #e2e8f0;
+}
