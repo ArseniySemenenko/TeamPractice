@@ -14,7 +14,6 @@
 
     <table 
         mat-table [dataSource]="dataSource" 
-        class="w-full mat-shadow-2"
         matSort
         matSortDirection="asc"
     >
@@ -55,6 +54,13 @@
     <ng-container matColumnDef="position">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Position</th>
         <td mat-cell *matCellDef="let element"> {{element.position_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="buttons">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell  *matCellDef="let element"> 
+            <mat-icon>navigate_next</mat-icon>
+        </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -28,7 +28,7 @@ export class EmployeesList implements OnInit{
   //dataSource = linkedSignal(() => new MatTableDataSource(this.employees()));
 
   dataSource = new MatTableDataSource<Employee>([]);
-  displayedColumns: string[] = ['avatar' , 'f_name' , 'l_name' , 'email' , 'department' , 'position']; 
+  displayedColumns: string[] = ['avatar' , 'f_name' , 'l_name' , 'email' , 'department' , 'position' , 'buttons']; 
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
