@@ -30,7 +30,6 @@ export class EmployeesList implements OnInit{
   dataSource = new MatTableDataSource<Employee>([]);
   displayedColumns: string[] = ['avatar' , 'f_name' , 'l_name' , 'email' , 'department' , 'position']; 
 
-
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -45,6 +44,20 @@ export class EmployeesList implements OnInit{
   }
 
   ngOnInit(){
+
+
+    //
+    this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+      switch (property) {
+        case 'f_name': return item.profile?.first_name?.toLowerCase();
+        case 'l_name': return item.profile?.last_name?.toLowerCase();
+        // Указываем точное поле для колонки department:
+        case 'department': return item.department_name?.toLowerCase(); 
+        case 'position': return item.position_name?.toLowerCase();
+        default: return item[property];
+      }
+    };
+
     this.usersService.getEmployees().subscribe((res) => {
       if(res.data){
         this.dataSource.data = res.data.users; 
