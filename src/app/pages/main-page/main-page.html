@@ -1,39 +1,62 @@
 <main class="flex h-full w-full">
-    <header class="w-50 h-full">
-        <div class="flex flex-col justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
+    <nav class="sticky top-0 left-0 flex-col w-50 h-full">
+        <div class="justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
-                routerLink="/main/employees"
-                routerLinkActive="bg-[#FFFFFF14]"
+                routerLink="/users"
+                routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
+                #rla_emp="routerLinkActive"
             >
-                <img src="employees.svg" height="24px" width="24px" class="mx-[15px]">
+
+            <mat-icon 
+                class="mx-[15px]" 
+                [ngClass]="rla_emp.isActive ? 'text-white!' : 'text-gray-400!'">
+                group
+            </mat-icon>
+
                 <p>Employees</p>
             </div>
 
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
-                routerLink="/main/skills"
-                routerLinkActive="bg-[#FFFFFF14]"
+                routerLink="/skills"
+                routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
+                #rla_skills = "routerLinkActive"
             >
-                <img src="skills.svg" height="24px" width="24px" class="mx-[15px]">
+                <mat-icon 
+                    class="mx-[15px]" 
+                    [ngClass]="rla_skills.isActive ? 'text-white!' : 'text-gray-400!'">
+                    trending_up
+                </mat-icon>
                 <p>Skills</p>
             </div>
 
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/main/languages"
-                routerLinkActive="bg-[#FFFFFF14]"
+                routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
+                #rla_lang="routerLinkActive"
             >
-                <img src="languages.svg" height="24px" width="24px" class="mx-[15px]">
+                <mat-icon 
+                    class="mx-[15px]" 
+                    [ngClass]="rla_lang.isActive ? 'text-white!' : 'text-gray-400!'">
+                    translate
+                </mat-icon>
                 <p>Languages</p>
             </div>
 
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/main/cvs"
-                routerLinkActive="bg-[#FFFFFF14]"
+                routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
+                #rla_cvs = 'routerLinkActive'
             >
-                <img src="cvs.svg" height="24px" width="24px" class="mx-[15px]">
+                <mat-icon 
+                    class="mx-[15px]" 
+                    [ngClass]="rla_cvs.isActive ? 'text-white!' : 'text-gray-400!'"
+                    >
+                    contact_page
+                </mat-icon>
                 <p>CVs</p>
             </div>
 
@@ -41,11 +64,20 @@
                 <p>{{authService.currentUserId()}}</p>
             </div>
         </div>
-    </header>
+    </nav>
 
     <div class="w-full">
         <div class="w-full h-[44px]">
-            <p class="text-[#FFFFFFB2] pl-[20px] pt-[16px] text-[16px]">{{filter() | firstLetterUpper}}</p>
+            <div
+                class="text-[#FFFFFFB2] ml-[20px] pt-[16px] text-[16px]"
+            >
+                <a 
+                    class="hover:cursor-pointer"
+                    [routerLink]="`/main/${filter()}`"
+                >
+                    {{filter() | firstLetterUpper}}
+                </a>
+            </div>
         </div>
 
         <div class="w-full h-full">

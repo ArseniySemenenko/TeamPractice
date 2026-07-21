@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { filter, map , pipe} from 'rxjs';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { AuthService } from '../../services/auth-service';
+import { MatIcon } from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
 
 type routePath = 'employees' | 'skills' | 'languages' | 'cvs';
 function isRoutePath(value: string): value is routePath {
@@ -16,7 +19,7 @@ function isRoutePath(value: string): value is routePath {
 
 @Component({
   selector: 'app-main-page',
-  imports: [MatSidenavModule , RouterLink, RouterLinkActive, FirstLetterUpperPipe, RouterOutlet],
+  imports: [NgClass, MatSidenavModule, RouterLink, RouterLinkActive, FirstLetterUpperPipe, RouterOutlet, MatIcon , MatIconModule],
   templateUrl: './main-page.html',
   styleUrl: './main-page.css',
 })

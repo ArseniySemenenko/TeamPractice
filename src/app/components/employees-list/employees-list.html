@@ -18,7 +18,7 @@
         matSortDirection="asc"
     >
     <ng-container matColumnDef="avatar" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+        <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let elem" > 
             @if(elem.profile.avatar == null || elem.profile.avatar == '' ){
                 <div class="rounded-[50%] object-cover w-[40px] h-[40px] bg-[#757575] text-[#353535] text-[20px] flex items-center justify-center">
@@ -59,7 +59,10 @@
     <ng-container matColumnDef="buttons">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell  *matCellDef="let element"> 
-            <mat-icon>navigate_next</mat-icon>
+            <mat-icon 
+                [routerLink]="`/users/${element.id}/profile`"
+                class="text-[#515151]! hover:cursor-pointer hover:text-white!"
+            >navigate_next</mat-icon>
         </td>
     </ng-container>
 

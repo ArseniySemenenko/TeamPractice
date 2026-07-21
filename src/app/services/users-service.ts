@@ -18,6 +18,34 @@ const GetUsersAsEmployees = gql`
     }
 `
 
+const GetProfile = gql`
+    query GetProfile($userId: ID!){
+    user(userId:$userId){
+    profile{
+      id
+      created_at
+      first_name
+      last_name
+      full_name
+      avatar
+      
+    }
+    department{
+      id
+      created_at
+      name
+    }
+    department_name
+    position{
+      id 
+      created_at
+      name
+    }
+    position_name
+  }
+}
+`
+
 interface getEmployeesRes{
     users: Employee[],
 }

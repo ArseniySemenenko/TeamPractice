@@ -8,6 +8,7 @@ import { Signup } from './components/signup/signup';
 import { Forgot } from './components/forgot/forgot';
 import { authGuard } from './guards/auth-guard';
 import { mainGuard } from './guards/main-guard';
+import { UserProfile } from './components/user-profile/user-profile';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -22,9 +23,10 @@ export const routes: Routes = [
     },
     {path: 'forgot-password' , component: Forgot},
 
-    {path: "main" , component: MainPage, 
+    {path: "" , component: MainPage, 
         children:[
-            {path: 'employees' , component: EmployeesList},
+            {path: 'users' , component: EmployeesList},
+            {path: 'users/:userId/profile' , component: UserProfile},
             {path: 'skills' , component: SkillsList},
         ],
         

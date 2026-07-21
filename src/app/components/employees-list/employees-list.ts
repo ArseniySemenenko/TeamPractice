@@ -11,12 +11,14 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {LiveAnnouncer} from '@angular/cdk/a11y';
 import {AfterViewInit, ViewChild} from '@angular/core';
 import { Sort, } from '@angular/material/sort';
+import { CdkFixedSizeVirtualScroll } from "@angular/cdk/scrolling";
+import { RouterLink } from "@angular/router";
 
 
 
 @Component({
   selector: 'app-employees-list',
-  imports: [MatProgressSpinnerModule, MatTableModule, MatSortModule, MatSort , MatTableModule, MatFormFieldModule, MatInputModule, MatTableModule, CdkTableModule , MatIconModule],
+  imports: [MatProgressSpinnerModule, MatTableModule, MatSortModule, MatSort, MatTableModule, MatFormFieldModule, MatInputModule, MatTableModule, CdkTableModule, MatIconModule, CdkFixedSizeVirtualScroll, RouterLink],
   templateUrl: './employees-list.html',
   styleUrl: './employees-list.scss',
 })

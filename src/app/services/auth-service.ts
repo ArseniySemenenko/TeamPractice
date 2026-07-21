@@ -77,7 +77,7 @@ export class AuthService {
               console.log('access token: ', this.tokensService.getAccesToken());
               console.log('isAuth: ' , this.isAuth());
               console.log('user: ' , this.currentUserId());
-              this.router.navigate(['main/employees']);
+              this.router.navigate(['/users']);
             }) 
       );
     }
@@ -103,7 +103,7 @@ export class AuthService {
               console.log('access token: ', this.tokensService.getAccesToken());
               console.log('isAuth: ' , this.isAuth());
               console.log('user: ' , this.currentUserId());
-              this.router.navigate(['main/employees']);
+              this.router.navigate(['/users']);
             })
       );
     }
