@@ -1,5 +1,20 @@
-<main>
-    @for(skill of skills(); track skill.category){
-        {{skill.name}}
-    }
+<main class="text-white flex gap-10">
+    <div>
+        @for (cat of skillsCategories(); track cat.id) {
+            <p>{{ cat.id }}: {{ cat.name }}</p>
+            <div class="ml-10">
+                @if (cat.children) {
+                    @for (child of cat.children; track child.id) {
+                        <p>{{ child.id }}: {{ child.name }}</p>
+                    }
+                }
+            </div>
+        }
+    </div>
+
+    <div>
+        @for (skill of skills(); track skill.name) {
+            <p>{{ skill.categoryId }}: {{ skill.name }}</p>
+        }
+    </div>
 </main>

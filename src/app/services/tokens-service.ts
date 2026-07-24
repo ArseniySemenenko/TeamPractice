@@ -46,7 +46,7 @@ export class TokensService {
         })
         .pipe(
             tap((res) => {
-                console.log(res.data)
+                console.log('updated tokens func: ' , res.data)
                 if(res.data){
                     this._accessToken.set(res.data.access_token);
                     this._refreshToken = res.data.refresh_token;
