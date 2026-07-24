@@ -37,12 +37,19 @@ html {
 
     divider-height: 0px,
     container-height: 56px,
+  ));
 
+  @include mat.select-overrides((
+    enabled-trigger-text-color: white,
+    enabled-arrow-color: white,
+    panel-background-color: #353535,
+    
   ));
 
   @include mat.button-overrides((
       filled-container-color: #C63031,
-      
+      filled-disabled-label-text-color: #999999,
+      filled-disabled-container-color: #4D4D4D,
   ));
 
   @include mat.form-field-overrides((

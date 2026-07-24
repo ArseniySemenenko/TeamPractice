@@ -34,6 +34,7 @@ export class TokensService {
     }
 
     updateTokens(){
+        console.log(this._refreshToken);
         this.apollo.mutate<UpdateTokenResult>({
             mutation: UPDATE_TOKENS,
             context: {
@@ -45,6 +46,7 @@ export class TokensService {
         })
         .pipe(
             tap((res) => {
+                console.log(res.data)
                 if(res.data){
                     this._accessToken.set(res.data.access_token);
                     this._refreshToken = res.data.refresh_token;
@@ -58,7 +60,7 @@ export class TokensService {
         //do <=
         let exp = this.jwt.getTokenExpiry(this._accessToken());
         if(exp){
-            if(exp <= Date.now()){
+            if(Number(exp) <= Number(Date.now())){
                 console.log('udpated tokens');
                 this.updateTokens();
             }

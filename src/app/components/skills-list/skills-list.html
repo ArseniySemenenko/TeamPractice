@@ -1,3 +1,5 @@
 <main>
-    {{skills()}}
+    @for(skill of skills(); track skill.category){
+        {{skill.name}}
+    }
 </main>

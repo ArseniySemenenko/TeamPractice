@@ -1,3 +1,68 @@
-<main>
-    {{userId()}}
+<main class="w-full h-screen flex flex-col">
+    <div class="shrink-0 ">
+        <div class="w-full h-[44px]">
+            <div
+                class="text-[#FFFFFFB2] ml-[20px] pt-[16px] text-[16px] flex items-center"
+            >
+                <a 
+                    class="hover:cursor-pointer"
+                    routerLink="/users"
+                >
+                    Employees
+                </a>
+                <mat-icon
+                    class="text-[#515151]!"
+                >
+                    navigate_next
+                </mat-icon>
+                <mat-icon class="text-[#C63031]!">
+                    person-outlined
+                </mat-icon>
+                <span
+                    class="text-[#C63031]"
+                >{{currentProfile().profile.last_name}} {{currentProfile().profile.first_name}}</span>
+            </div>
+    </div>
+
+    <div>
+        <div class="w-[500px]">
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel" >
+            <a 
+                class=""
+                mat-tab-link 
+                [routerLink]="['/users', currentProfile().profile.id, 'profile']"
+                routerLinkActive
+                #rla_profile="routerLinkActive"
+                [active]="rla_profile.isActive"
+            >PROFILE</a>
+
+            <a 
+                class=""
+                mat-tab-link 
+                [routerLink]="['/users', currentProfile().profile.id, 'skills']"
+                routerLinkActive
+                #rla_skills="routerLinkActive"
+                [active]="rla_skills.isActive"
+            >SKILLS</a>
+
+            <a 
+                class=""
+                mat-tab-link 
+                [routerLink]="['/users', currentProfile().profile.id, 'languages']"
+                routerLinkActive
+                #rla_langs="routerLinkActive"
+                [active]="rla_langs.isActive"
+            >LANGUAGES</a>
+        </nav>
+
+        <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+        </div>
+    </div>
+    </div>
+
+    <div class="flex flex-1 w-full">
+        <div class="w-full h-full">
+            <router-outlet></router-outlet>
+        </div>
+    </div>
 </main>

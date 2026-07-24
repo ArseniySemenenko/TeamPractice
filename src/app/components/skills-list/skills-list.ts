@@ -17,12 +17,16 @@ export class SkillsList implements OnInit{
   skills = signal<Skill[]>([]);
 
   ngOnInit(){
+    //if user == currentUser
     let id = this.authService.currentUserId()
-    if(id) this.skilsService.getSkillsById(id)
+    //skills
+    if(id) this.skilsService.getSkillsById(Number(id))
     .subscribe((skills) => {
-          if(skills.data && skills.data.data.profile.skills){
-            this.skills.set(skills.data.data.profile.skills);
+          if(skills.data?.profile){
+            this.skills.set(skills.data?.profile.skills);
           }
+
+          console.log(this.skills());
     })
   }
 }

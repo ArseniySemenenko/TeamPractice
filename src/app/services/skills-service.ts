@@ -14,24 +14,16 @@ const GetSkillsById = gql`
     }
 `
 
-
-
-interface SkillsByIdResult{
-    data: {
-        profile: {
-            skills: Skill[],
-        }
-    }
-}
-
 @Service()
 export class SkillsService {
     private readonly apollo = inject(Apollo);
 
     getSkillsById(id: number){
-        return this.apollo.query<SkillsByIdResult>({
+        return this.apollo.query<{ profile: { skills: Skill[] } }>({
             query: GetSkillsById,
-            variables: {id}
+            variables: {
+                userId: id,
+            }
         })
     }
 

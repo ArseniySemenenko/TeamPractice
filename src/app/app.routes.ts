@@ -9,6 +9,8 @@ import { Forgot } from './components/forgot/forgot';
 import { authGuard } from './guards/auth-guard';
 import { mainGuard } from './guards/main-guard';
 import { UserProfile } from './components/user-profile/user-profile';
+import { LangsList } from './components/langs-list/langs-list';
+import { ProfileDetails } from './components/profile-details/profile-details';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -26,7 +28,13 @@ export const routes: Routes = [
     {path: "" , component: MainPage, 
         children:[
             {path: 'users' , component: EmployeesList},
-            {path: 'users/:userId/profile' , component: UserProfile},
+            {path: 'users/:userId' , component: UserProfile ,
+                children: [
+                    {path: '', redirectTo: 'profile', pathMatch: 'full'},
+                    {path: 'profile' , component: ProfileDetails},
+                    {path: 'skills' , component: SkillsList},
+                    {path: 'languages' , component: LangsList},
+            ]},
             {path: 'skills' , component: SkillsList},
         ],
         
