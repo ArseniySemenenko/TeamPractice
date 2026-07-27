@@ -1,20 +1,57 @@
-<main class="text-white flex gap-10">
-    <div>
+<main class="text-white">
+    <div class="container mx-auto px-4">
         @for (cat of skillsCategories(); track cat.id) {
-            <p>{{ cat.id }}: {{ cat.name }}</p>
-            <div class="ml-10">
-                @if (cat.children) {
-                    @for (child of cat.children; track child.id) {
-                        <p>{{ child.id }}: {{ child.name }}</p>
-                    }
-                }
-            </div>
-        }
-    </div>
+            @if (!cat.parent) {
+                <!-- Проверяем, есть ли скиллы у родительской категории ИЛИ у любой дочерней -->
+                @if (skills().some((skill) => skill.categoryId == cat.id) 
+                || 
+                skills().some((skill) => cat.children?.some(child => child.id == skill.categoryId))
+                ) {
+                    <div class="category-block mb-10">
+                        <h2 class="text-2xl font-bold mb-6 pb-2">
+                            {{ cat.name }}
+                        </h2>
+                        
+                        <!-- Одна общая сетка для всех скиллов -->
+                        <div class="skills-grid flex flex-wrap gap-4">
+                            <!-- Скиллы родительской категории -->
+                            @for (skill of skills(); track skill.name) {
+                                @if (skill.categoryId == cat.id) {
+                                    <div class="p-4 w-[300px]">
+                                        <p class="text-white font-medium">{{ skill.name }}</p>
+                                        <mat-progress-bar 
+                                            mode="determinate" 
+                                            [value]="masteryValues[skill.mastery]"
+                                            
+                                            class="mt-2 bg-yellow-400!"
+                                        ></mat-progress-bar>
+                                        <span class="text-xs text-gray-400 mt-1 block">{{ skill.mastery }}</span>
+                                    </div>
+                                }
+                            }
 
-    <div>
-        @for (skill of skills(); track skill.name) {
-            <p>{{ skill.categoryId }}: {{ skill.name }}</p>
+                            <!-- Скиллы всех дочерних категорий (без отображения самих категорий) -->
+                            @if (cat.children) {
+                                @for (child of cat.children; track child.id) {
+                                    @for (skill of skills(); track skill.name) {
+                                        @if (skill.categoryId == child.id) {
+                                            <div class="p-4 w-[300px]">
+                                                <p class="text-white font-medium">{{ skill.name }}</p>
+                                                <mat-progress-bar 
+                                                    mode="determinate" 
+                                                    [value]="masteryValues[skill.mastery]"
+                                                    class="mt-2"
+                                                ></mat-progress-bar>
+                                                <span class="text-xs text-gray-400 mt-1 block">{{ skill.mastery }}</span>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            }
         }
     </div>
 </main>

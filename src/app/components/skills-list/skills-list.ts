@@ -2,10 +2,11 @@ import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { SkillsService } from '../../services/skills-service';
 import { AuthService } from '../../services/auth-service';
 import { Skill, SkillCategory } from 'cv-graphql';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
     selector: 'app-skills-list',
-    imports: [],
+    imports: [MatProgressBarModule],
     templateUrl: './skills-list.html',
     styleUrl: './skills-list.css',
 })
@@ -20,6 +21,26 @@ export class SkillsList implements OnInit {
             mastery: 'Novice' | 'Advanced' | 'Competent' | 'Proficient' | 'Expert';
         }[]
     >([]);
+
+    masteryValues: Record<'Novice' | 'Advanced' | 'Competent' | 'Proficient' | 'Expert', number> = {
+        Novice: 20,
+        Advanced: 40,
+        Competent: 60,
+        Proficient: 80,
+        Expert: 100,
+    };
+
+    masteryColors: Record<
+        'Novice' | 'Advanced' | 'Competent' | 'Proficient' | 'Expert',
+        string
+    > = {
+        Novice: 'gray',
+        Advanced: 'blue',
+        Competent: 'green',
+        Proficient: 'yellow',
+        Expert: 'red',
+    };
+
     skillsCategories = signal<SkillCategory[]>([]);
 
     userId = input();
