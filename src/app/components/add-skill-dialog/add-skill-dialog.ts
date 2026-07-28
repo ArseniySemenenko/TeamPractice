@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SkillsService } from '../../services/skills-service';
 import { Mastery, SkillMastery } from 'cv-graphql';
 import { Skill } from 'cv-graphql';
+import {MatIconModule} from '@angular/material/icon';
 
 export interface SkillData {
     skill: SkillMastery;
@@ -28,6 +29,7 @@ export interface DialogData {
         MatFormFieldModule,
         MatButtonModule,
         MatInputModule,
+        MatIconModule,
     ],
     templateUrl: './add-skill-dialog.html',
     styleUrl: './add-skill-dialog.css',

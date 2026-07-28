@@ -1,10 +1,15 @@
-<div>
-    <h2 mat-dialog-title class="text-white!">Add Skill</h2>
+<div class="flex flex-col">
+    <div class="dialog-header flex items-center justify-between">
+        <h2 mat-dialog-title class="text-white!">Add Skill</h2>
+        <button mat-icon-button (click)="onCancel()" class="mx-5">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
 
-    <form [formGroup]="skillForm">
+    <form [formGroup]="skillForm" class="w-full!">
         <mat-dialog-content>
-            <div class="dialog-content">
-                <mat-form-field appearance="outline" class="text-white!">
+            <div>
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
                     <mat-label>Skill</mat-label>
                     <mat-select formControlName="skill">
                         @for (skill of skills(); track skill) {
@@ -21,7 +26,7 @@
                     }
                 </mat-form-field>
 
-                <mat-form-field appearance="outline">
+                <mat-form-field appearance="outline" class="w-full!">
                     <mat-label>Mastery</mat-label>
                     <mat-select formControlName="mastery">
                         @for (mastery of masteries; track mastery) {
@@ -40,16 +45,19 @@
             </div>
         </mat-dialog-content>
 
-        <mat-dialog-actions align="end">
-            <button mat-button type="button" (click)="onCancel()">Cancel</button>
+        <mat-dialog-actions>
+            <button matButton="outlined" type="button" class="px-15!" (click)="onCancel()">
+                CANCEL
+            </button>
             <button
-                mat-button
+                class="px-15!"
+                matButton="filled"
                 color="primary"
                 type="button"
                 (click)="onAdd()"
                 [disabled]="skillForm.invalid"
             >
-                Add
+                CONFIRM
             </button>
         </mat-dialog-actions>
     </form>

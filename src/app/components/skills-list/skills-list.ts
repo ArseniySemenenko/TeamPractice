@@ -1,13 +1,12 @@
-import { Component, inject, input, OnInit, signal, effect } from '@angular/core';
+import { Component, inject, input, OnInit, signal} from '@angular/core';
 import { SkillsService } from '../../services/skills-service';
 import { AuthService } from '../../services/auth-service';
-import { Skill, SkillCategory } from 'cv-graphql';
+import { SkillCategory } from 'cv-graphql';
 import { SkillMastery } from 'cv-graphql';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AddSkillDialog, SkillData } from '../add-skill-dialog/add-skill-dialog';
-import { SimpleChanges } from '@angular/core';
 
 import {
     MatDialog,
