@@ -157,12 +157,13 @@ export class ProfileDetails {
                 .updateProfile(this.currentProfile().id, this.f_name(), this.l_name())
                 .subscribe((res) => {
                     if (res.data?.updateProfile) {
-                        this.currentProfile.update((current) => ({
+                        this.authService.currentUser.update((current) => ({
                             ...current,
                             profile: {
                                 ...current.profile,
                                 first_name: this.f_name(),
                                 last_name: this.l_name(),
+                                full_name: this.f_name() + " " + this.l_name()
                             },
                         }));
                     }
@@ -170,5 +171,5 @@ export class ProfileDetails {
         }
     }
 
-    userId = input.required<number>();
+    userId = input.required<string>();
 }

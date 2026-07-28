@@ -1,5 +1,5 @@
 <main class="flex h-full w-full">
-    <nav class="sticky top-0 left-0 flex-col w-50 h-full">
+    <nav class="flex justify-between sticky top-0 left-0 flex-col w-50 h-screen">
         <div class="justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
@@ -33,7 +33,7 @@
 
             <div 
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
-                routerLink="/main/languages"
+                routerLink="/languages"
                 routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
                 #rla_lang="routerLinkActive"
             >
@@ -59,11 +59,33 @@
                 </mat-icon>
                 <p>CVs</p>
             </div>
-
-            <div class="h-[56px] w-full bg-amber-400">
-                <p>{{authService.currentUserId()}}</p>
-            </div>
         </div>
+
+        <div class="h-[56px] w-full self-end text-white flex items-center justify-around">
+
+                <div>
+                    @if (
+                        !authService.currentUser().profile.avatar
+                    ) {
+                        <div
+                            class="rounded-[50%] object-cover w-[40px] h-[40px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
+                        >
+                            {{ authService.currentUser().profile.first_name?.[0]?.toUpperCase() || '' }}
+                        </div>
+                    } @else {
+                        <img
+                            class="rounded-[50%] object-cover w-[40px] h-[40px]"
+                            [src]="authService.currentUser().profile.avatar"
+                        />
+                    }
+                </div>
+
+                <div>
+                    <p
+                    class="text-[14px]"
+                >{{authService.currentUser().profile.full_name}}</p>
+                </div>
+            </div>
     </nav>
 
     <div class="w-full">

@@ -23,6 +23,7 @@ export const routes: Routes = [
         ],
         canActivate: [authGuard],
     },
+
     {path: 'forgot-password' , component: Forgot},
 
     {path: "" , component: MainPage, 
@@ -36,6 +37,7 @@ export const routes: Routes = [
                     {path: 'languages' , component: LangsList},
             ]},
             {path: 'skills' , component: SkillsList},
+            {path: 'languages' , component: LangsList},
         ],
         
         canActivate: [mainGuard],

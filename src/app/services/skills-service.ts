@@ -2,6 +2,9 @@ import { inject, Service } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
 import { Skill, SkillCategory } from 'cv-graphql';
 import { Profile } from 'cv-graphql';
+import { SkillMastery } from 'cv-graphql';
+import { signal } from '@angular/core';
+import { AddProfileSkillInput } from 'cv-graphql';
 
 const GetSkillsById = gql`
     query GetsSkillsById($userId: ID!) {
@@ -35,6 +38,32 @@ const GetSkillsCategories = gql`
     }
 `;
 
+const GetAllSkills = gql`
+    query GetAllSkills {
+        skills {
+            id
+            name
+            category {
+                name
+                id
+            }
+        }
+    }
+`;
+
+const AddProfileSkill = gql`
+    mutation AddProfileSkill($skill: AddProfileSkillInput!) {
+        addProfileSkill(skill: $skill) {
+            id
+            skills {
+                name
+                categoryId
+                mastery
+            }
+        }
+    }
+`;
+
 interface GroupedCategory {
     id: string;
     name: string;
@@ -54,14 +83,24 @@ interface GroupedCategory {
 export class SkillsService {
     private readonly apollo = inject(Apollo);
 
+    currentUserSkills = signal<SkillMastery[]>([]);
+
+    // Общее состояние
+    private skillsSignal = signal<SkillMastery[]>([]);
+    private categoriesSignal = signal<SkillCategory[]>([]);
+
+    // Публичные readonly сигналы
+    readonly skills = this.skillsSignal.asReadonly();
+    readonly skillCategories = this.categoriesSignal.asReadonly();
+
+   
+
+    //
     getSkillsById(id: number) {
         return this.apollo.query<{
+            fetchPolicy: 'no-cache';
             profile: {
-                skills: {
-                    name: string;
-                    categoryId: string;
-                    mastery: "Novice" | "Advanced" | "Competent" | "Proficient" | "Expert",
-                }[];
+                skills: SkillMastery[];
             };
         }>({
             query: GetSkillsById,
@@ -77,45 +116,18 @@ export class SkillsService {
         });
     }
 
-    groupSkills(categories: SkillCategory[], skills: Skill[]): GroupedCategory[] {
-        // 1. Исправлено: используем skill.categoryId вместо skill.id
-        const skillsByCategoryId = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
-            const catId = skill.id;
-            if (!acc[catId]) {
-                acc[catId] = [];
-            }
-            acc[catId].push(skill);
-            return acc;
-        }, {});
+    getAllSkills() {
+        return this.apollo.query<{ skills: Skill[] }>({
+            query: GetAllSkills,
+        });
+    }
 
-        // 2. Берём корневые категории
-        const rootCategories = categories
-            .filter((cat) => cat.parent === null)
-            .sort((a, b) => a.order - b.order);
-
-        // 3. Формируем структуру
-        return rootCategories
-            .map((root) => {
-                const rootSkills = skillsByCategoryId[root.id] || [];
-
-                const subcategories = (root.children || [])
-                    .map((child) => ({
-                        id: child.id,
-                        name: child.name,
-                        order: child.order,
-                        skills: skillsByCategoryId[child.id] || [],
-                    }))
-                    .filter((sub) => sub.skills.length > 0)
-                    .sort((a, b) => a.order - b.order);
-
-                return {
-                    id: root.id,
-                    name: root.name,
-                    order: root.order,
-                    skills: rootSkills,
-                    subcategories,
-                };
-            })
-            .filter((group) => group.skills.length > 0 || group.subcategories.length > 0);
+    addProfileSkill(args: AddProfileSkillInput) {
+        return this.apollo.mutate<{ addProfileSkill: { id: string; skills: SkillMastery[] } }>({
+            mutation: AddProfileSkill,
+            variables: {
+                skill: args,
+            },
+        });
     }
 }

@@ -32,7 +32,7 @@ import { AuthService } from '../../services/auth-service';
         RouterLink,
     ],
     templateUrl: './employees-list.html',
-    styleUrl: './employees-list.scss',
+    styleUrl: './employees-list.css',
 })
 export class EmployeesList implements OnInit {
     private readonly usersService = inject(UsersService);

@@ -1,57 +1,145 @@
-<main class="text-white">
-    <div class="container mx-auto px-4">
-        @for (cat of skillsCategories(); track cat.id) {
-            @if (!cat.parent) {
-                <!-- Проверяем, есть ли скиллы у родительской категории ИЛИ у любой дочерней -->
-                @if (skills().some((skill) => skill.categoryId == cat.id) 
-                || 
-                skills().some((skill) => cat.children?.some(child => child.id == skill.categoryId))
-                ) {
-                    <div class="category-block mb-10">
-                        <h2 class="text-2xl font-bold mb-6 pb-2">
-                            {{ cat.name }}
-                        </h2>
-                        
-                        <!-- Одна общая сетка для всех скиллов -->
-                        <div class="skills-grid flex flex-wrap gap-4">
-                            <!-- Скиллы родительской категории -->
-                            @for (skill of skills(); track skill.name) {
-                                @if (skill.categoryId == cat.id) {
-                                    <div class="p-4 w-[300px]">
-                                        <p class="text-white font-medium">{{ skill.name }}</p>
-                                        <mat-progress-bar 
-                                            mode="determinate" 
-                                            [value]="masteryValues[skill.mastery]"
-                                            
-                                            class="mt-2 bg-yellow-400!"
-                                        ></mat-progress-bar>
-                                        <span class="text-xs text-gray-400 mt-1 block">{{ skill.mastery }}</span>
-                                    </div>
-                                }
-                            }
+<main class="min-h-full w-full flex justify-center items-center mt-5">
+    <div class="w-[90%] text-white">
+        <div class="container mx-auto px-4">
+            @for (cat of skillsCategories(); track cat.id) {
+                @if (!cat.parent) {
+                    <!-- Проверяем, есть ли скиллы у родительской категории ИЛИ у любой дочерней -->
+                    @if (
+                        skills().some((skill) => skill.categoryId == cat.id) ||
+                        skills().some((skill) =>cat.children?.some((child) => child.id == skill.categoryId))
+                    ) {
+                        <div class="category-block mb-10">
+                            <h2 class="text-[16px] mb-6 pb-2">
+                                {{ cat.name }}
+                            </h2>
 
-                            <!-- Скиллы всех дочерних категорий (без отображения самих категорий) -->
-                            @if (cat.children) {
-                                @for (child of cat.children; track child.id) {
-                                    @for (skill of skills(); track skill.name) {
-                                        @if (skill.categoryId == child.id) {
-                                            <div class="p-4 w-[300px]">
-                                                <p class="text-white font-medium">{{ skill.name }}</p>
-                                                <mat-progress-bar 
-                                                    mode="determinate" 
-                                                    [value]="masteryValues[skill.mastery]"
-                                                    class="mt-2"
-                                                ></mat-progress-bar>
-                                                <span class="text-xs text-gray-400 mt-1 block">{{ skill.mastery }}</span>
+                            <!-- Одна общая сетка для всех скиллов -->
+                            <div class="skills-grid flex flex-wrap gap-4">
+                                <!-- Скиллы родительской категории -->
+                                @for (skill of skills(); track $index) {
+                                    @if (skill.categoryId == cat.id) {
+                                        <div class="p-4 w-[300px] flex items-center gap-5">
+                                            <div
+                                                class="w-[100px] h-1"
+                                                [ngClass]="{
+                                                    'bg-[#3B3B3B]':
+                                                        masteryValues[skill.mastery] == 20,
+                                                    'bg-[#145B7B]':
+                                                        masteryValues[skill.mastery] == 40,
+                                                    'bg-[#335D35]':
+                                                        masteryValues[skill.mastery] == 60,
+                                                    'bg-[#7F5C00]':
+                                                        masteryValues[skill.mastery] == 80,
+                                                    'bg-[#C63031]':
+                                                        masteryValues[skill.mastery] == 100,
+                                                }"
+                                            >
+                                                <div
+                                                    class="h-full"
+                                                    [style.width.%]="masteryValues[skill.mastery]"
+                                                    [ngClass]="{
+                                                        'bg-[#767676]':
+                                                            masteryValues[skill.mastery] == 20,
+                                                        'bg-[#29B6F6]':
+                                                            masteryValues[skill.mastery] == 40,
+                                                        'bg-[#66BB6A]':
+                                                            masteryValues[skill.mastery] == 60,
+                                                        'bg-[#FFB800]':
+                                                            masteryValues[skill.mastery] == 80,
+                                                        'bg-[#C63031]':
+                                                            masteryValues[skill.mastery] == 100,
+                                                    }"
+                                                ></div>
                                             </div>
+
+                                            <div>
+                                                <p class="text-[#767676] text-[16px]">
+                                                    {{ skill.name }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+
+                                <!-- Скиллы всех дочерних категорий (без отображения самих категорий) -->
+                                @if (cat.children) {
+                                    @for (child of cat.children; track child.id) {
+                                        @for (skill of skills(); track skill.name) {
+                                            @if (skill.categoryId == child.id) {
+                                                <div class="p-4 w-[300px] flex items-center gap-5">
+                                                    <div
+                                                        class="w-[100px] h-1"
+                                                        [ngClass]="{
+                                                            'bg-[#3B3B3B]':
+                                                                masteryValues[skill.mastery] == 20,
+                                                            'bg-[#145B7B]':
+                                                                masteryValues[skill.mastery] == 40,
+                                                            'bg-[#335D35]':
+                                                                masteryValues[skill.mastery] == 60,
+                                                            'bg-[#7F5C00]':
+                                                                masteryValues[skill.mastery] == 80,
+                                                            'bg-[#C63031]':
+                                                                masteryValues[skill.mastery] == 100,
+                                                        }"
+                                                    >
+                                                        <div
+                                                            class="h-full"
+                                                            [style.width.%]="
+                                                                masteryValues[skill.mastery]
+                                                            "
+                                                            [ngClass]="{
+                                                                'bg-[#767676]':
+                                                                    masteryValues[skill.mastery] ==
+                                                                    20,
+                                                                'bg-[#29B6F6]':
+                                                                    masteryValues[skill.mastery] ==
+                                                                    40,
+                                                                'bg-[#66BB6A]':
+                                                                    masteryValues[skill.mastery] ==
+                                                                    60,
+                                                                'bg-[#FFB800]':
+                                                                    masteryValues[skill.mastery] ==
+                                                                    80,
+                                                                'bg-[#C63031]':
+                                                                    masteryValues[skill.mastery] ==
+                                                                    100,
+                                                            }"
+                                                        ></div>
+                                                    </div>
+
+                                                    <div>
+                                                        <p class="text-[#767676] text-[16px]">
+                                                            {{ skill.name }}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            }
                                         }
                                     }
                                 }
-                            }
+                            </div>
                         </div>
-                    </div>
+                    }
                 }
             }
-        }
+        </div>
+
+
+        <!-- ADD / REMOVE BUTTONS -->
+        <div class="w-full h-[100px] flex justify-end items-start gap-10">
+                <div class="text-[#767676] flex items-center gap-2 hover:cursor-pointer" (click)="openAddSkillDialog()">
+
+                    
+                        <mat-icon class="text-[#767676]!"> add </mat-icon>
+                        <span>ADD SKILL</span>
+
+                </div>
+
+                <div class="text-[#C63031] flex items-center gap-2">
+                    <mat-icon class="text-[#C63031]!"> delete </mat-icon>
+                    <span>REMOVE SKILLS</span>
+                </div>
+        </div>
+        <!--  -->
     </div>
 </main>

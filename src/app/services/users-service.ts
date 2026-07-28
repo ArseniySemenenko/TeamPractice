@@ -148,7 +148,7 @@ export class UsersService {
         });
     }
 
-    getUser(id: number) {
+    getUser(id: string) {
         return this.apollo.query<{ user: User }>({
             query: GetUser,
             variables: {

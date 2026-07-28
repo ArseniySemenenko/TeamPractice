@@ -2,9 +2,11 @@ import { Component , inject, input , OnInit, signal } from '@angular/core';
 import { UsersService } from '../../services/users-service';
 import { MatIconModule } from '@angular/material/icon';
 import {MatTabsModule} from '@angular/material/tabs';
-import { RouterLink, RouterLinkActive} from '@angular/router';
+import { Router, RouterLink, RouterLinkActive} from '@angular/router';
 import { RouterOutlet } from '@angular/router';
 import { User } from 'cv-graphql';
+import { AuthService } from '../../services/auth-service';
+
 @Component({
   selector: 'app-user-profile',
   imports: [MatIconModule , RouterLink , MatTabsModule , RouterLinkActive , RouterOutlet],
@@ -14,6 +16,9 @@ import { User } from 'cv-graphql';
 export class UserProfile implements OnInit{
 
   private readonly usersService = inject(UsersService);
+  readonly authService = inject(AuthService);
+
+  router = inject(Router);
 
   currentProfile = signal<User>({} as User);
 
@@ -27,5 +32,5 @@ export class UserProfile implements OnInit{
   }
 
 
-  userId = input.required<number>();
+  userId = input.required<string>();
 }

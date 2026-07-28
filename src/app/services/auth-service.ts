@@ -5,6 +5,8 @@ import type { AuthInput, AuthResult, ForgotPasswordInput } from 'cv-graphql';
 import { Observable, map, tap } from 'rxjs';
 import { JwtService } from './jwt-service';
 import { TokensService } from './tokens-service';
+import { User } from 'cv-graphql';
+import { UsersService } from './users-service';
 
 export type LoginArgs = { auth: AuthInput };
 export type LoginResult = { login: AuthResult };
@@ -50,10 +52,13 @@ export class AuthService {
     private readonly router = inject(Router);
     private readonly jwt = inject(JwtService);
     private readonly tokensService = inject(TokensService);
+    private readonly usersService = inject(UsersService);
 
     private _currentUserId = signal<string | null>(null);
 
     readonly currentUserId = this._currentUserId.asReadonly();
+    
+    currentUser = signal<User>({} as User);
 
     readonly isAuth = computed(() => this.tokensService.getAccesToken() !== '');
 
@@ -78,7 +83,18 @@ export class AuthService {
                         authResult.login.access_token,
                         authResult.login.refresh_token,
                     );
+
                     this._currentUserId.set(authResult.login.user.id);
+
+                    if(this._currentUserId()){
+                        this.usersService.getUser(this._currentUserId() ?? '')
+                        .subscribe((res) => {
+                            if(res.data?.user){
+                                this.currentUser.set(res.data.user);
+                            }
+                        })
+                    }
+
                     console.log(
                         'token exp: ',
                         this.jwt.getTokenExpiry(this.tokensService.getAccesToken()),

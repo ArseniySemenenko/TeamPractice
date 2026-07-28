@@ -46,6 +46,13 @@ html {
     
   ));
 
+  @include mat.dialog-overrides((
+    container-color: #353535,
+    subhead-color: #C63031,
+
+    container-shape: box,
+  ));
+
   @include mat.button-overrides((
       filled-container-color: #C63031,
       filled-disabled-label-text-color: #999999,
