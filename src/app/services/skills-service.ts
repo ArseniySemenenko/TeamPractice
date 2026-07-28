@@ -5,6 +5,8 @@ import { Profile } from 'cv-graphql';
 import { SkillMastery } from 'cv-graphql';
 import { signal } from '@angular/core';
 import { AddProfileSkillInput } from 'cv-graphql';
+import { map } from 'rxjs/operators';
+import { first } from 'rxjs';
 
 const GetSkillsById = gql`
     query GetsSkillsById($userId: ID!) {
@@ -64,21 +66,17 @@ const AddProfileSkill = gql`
     }
 `;
 
+const DeleteProfileSkill = gql`
+    mutation DeleteProfileSkill($args: DeleteProfileSkillInput!) {
+        deleteProfileSkill(skill: $args) {
+            id
+        }
+    }
+`;
+
 @Service()
 export class SkillsService {
     private readonly apollo = inject(Apollo);
-
-    currentUserSkills = signal<SkillMastery[]>([]);
-
-    // Общее состояние
-    private skillsSignal = signal<SkillMastery[]>([]);
-    private categoriesSignal = signal<SkillCategory[]>([]);
-
-    // Публичные readonly сигналы
-    readonly skills = this.skillsSignal.asReadonly();
-    readonly skillCategories = this.categoriesSignal.asReadonly();
-
-   
 
     //
     getSkillsById(id: number) {
@@ -114,5 +112,17 @@ export class SkillsService {
                 skill: args,
             },
         });
+    }
+
+    deleteProfileSkills(id: string, names: string[]) {
+        return this.apollo.mutate<{deleteProfileSkill: {id: string}}>({
+            mutation: DeleteProfileSkill,
+            variables: {
+                args: {
+                    userId: id,
+                    name: names,
+                },
+            },
+        })
     }
 }

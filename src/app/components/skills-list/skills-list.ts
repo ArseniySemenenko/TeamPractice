@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, signal} from '@angular/core';
+import { Component, inject, input, OnInit, signal } from '@angular/core';
 import { SkillsService } from '../../services/skills-service';
 import { AuthService } from '../../services/auth-service';
 import { SkillCategory } from 'cv-graphql';
@@ -7,6 +7,8 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AddSkillDialog, SkillData } from '../add-skill-dialog/add-skill-dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { forkJoin } from 'rxjs';
 
 import {
     MatDialog,
@@ -27,14 +29,40 @@ import {
         MatDialogClose,
         MatDialogTitle,
         MatDialogContent,
+        MatButtonModule,
     ],
     templateUrl: './skills-list.html',
     styleUrl: './skills-list.css',
 })
 export class SkillsList implements OnInit {
     private readonly skilsService = inject(SkillsService);
-    private readonly authService = inject(AuthService);
+    readonly authService = inject(AuthService);
     private dialog = inject(MatDialog);
+
+    isDeleteActive = signal(false);
+    skillsToDelete = signal<SkillMastery[]>([]);
+
+    skillClickDelete(skill: SkillMastery) {
+        if (this.skillsToDelete().some((s) => s.name === skill.name)) {
+            this.skillsToDelete.update((skills) => skills.filter((s) => s.name !== skill.name));
+            console.log('skillsToDelete after removal: ', this.skillsToDelete());
+        } else {
+            this.skillsToDelete.update((skills) => [...skills, skill]);
+            console.log('skillsToDelete after addition: ', this.skillsToDelete());
+        }
+    }
+
+    deleteSkills() {
+        this.skilsService.deleteProfileSkills(this.authService.currentUserId() ?? '', this.skillsToDelete().map((s) => s.name))
+        .subscribe((res) => {
+          console.log('delete skills res: ', res.data?.deleteProfileSkill);
+          this.skills.update((skills) => skills.filter((s) => !this.skillsToDelete().some((sd) => sd.name === s.name)));
+          this.isDeleteActive.set(false);
+          this.skillsToDelete.set([]);
+        })
+
+    }
+
 
     skills = signal<SkillMastery[]>([]);
 
