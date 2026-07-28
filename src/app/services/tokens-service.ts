@@ -24,9 +24,7 @@ export class TokensService {
     private _accessToken = signal("");
     private _refreshToken = "";
 
-    getAccesToken(){
-        return this._accessToken();
-    }
+    readonly accessToken = this._accessToken.asReadonly();
 
     setTokens(access: string , refresh: string){
         this._accessToken.set(access);

@@ -60,7 +60,7 @@ export class AuthService {
     
     currentUser = signal<User>({} as User);
 
-    readonly isAuth = computed(() => this.tokensService.getAccesToken() !== '');
+    readonly isAuth = computed(() => this.tokensService.accessToken() !== '');
 
     login(args: AuthInput): Observable<LoginResult> {
         return this.apollo
@@ -97,9 +97,9 @@ export class AuthService {
 
                     console.log(
                         'token exp: ',
-                        this.jwt.getTokenExpiry(this.tokensService.getAccesToken()),
+                        this.jwt.getTokenExpiry(this.tokensService.accessToken()),
                     );
-                    console.log('access token: ', this.tokensService.getAccesToken());
+                    console.log('access token: ', this.tokensService.accessToken());
                     console.log('isAuth: ', this.isAuth());
                     console.log('user: ', this.currentUserId());
                     this.router.navigate(['/users']);
@@ -130,9 +130,9 @@ export class AuthService {
                     this._currentUserId.set(authResult.signup.user.id);
                     console.log(
                         'token exp: ',
-                        this.jwt.getTokenExpiry(this.tokensService.getAccesToken()),
+                        this.jwt.getTokenExpiry(this.tokensService.accessToken()),
                     );
-                    console.log('access token: ', this.tokensService.getAccesToken());
+                    console.log('access token: ', this.tokensService.accessToken());
                     console.log('isAuth: ', this.isAuth());
                     console.log('user: ', this.currentUserId());
                     this.router.navigate(['/users']);

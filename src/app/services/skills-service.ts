@@ -64,21 +64,6 @@ const AddProfileSkill = gql`
     }
 `;
 
-interface GroupedCategory {
-    id: string;
-    name: string;
-    order: number;
-    // Навыки, принадлежащие непосредственно этой категории
-    skills: Skill[];
-    // Подкатегории с их навыками
-    subcategories: {
-        id: string;
-        name: string;
-        order: number;
-        skills: Skill[];
-    }[];
-}
-
 @Service()
 export class SkillsService {
     private readonly apollo = inject(Apollo);
