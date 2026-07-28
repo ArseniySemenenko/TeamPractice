@@ -1,0 +1,62 @@
+<div class="flex flex-col">
+    <div class="dialog-header flex items-center justify-between">
+        <h2 mat-dialog-title class="text-white!">Update Skill</h2>
+        <button mat-icon-button (click)="onCancel()" class="mx-5">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="skillForm" class="w-full!">
+        <mat-dialog-content>
+            <div>
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Skill</mat-label>
+                    <mat-select formControlName="skill">
+                            <mat-option class="text-white!" [value]="data.skill.name">
+                                {{ data.skill.name }}
+                            </mat-option>
+                    </mat-select>
+                    @if (
+                        skillForm.get('skill')?.hasError('required') &&
+                        skillForm.get('skill')?.touched
+                    ) {
+                        <mat-error>Skill is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full!">
+                    <mat-label>Mastery</mat-label>
+                    <mat-select formControlName="mastery">
+                        @for (mastery of masteries; track mastery) {
+                            <mat-option class="text-white!" [value]="mastery">
+                                {{ mastery }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                    @if (
+                        skillForm.get('mastery')?.hasError('required') &&
+                        skillForm.get('mastery')?.touched
+                    ) {
+                        <mat-error>Mastery is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+
+        <mat-dialog-actions>
+            <button matButton="outlined" type="button" class="px-15!" (click)="onCancel()">
+                CANCEL
+            </button>
+            <button
+                class="px-15!"
+                matButton="filled"
+                color="primary"
+                type="button"
+                (click)="onAdd()"
+                [disabled]="skillForm.invalid"
+            >
+                CONFIRM
+            </button>
+        </mat-dialog-actions>
+    </form>
+</div>

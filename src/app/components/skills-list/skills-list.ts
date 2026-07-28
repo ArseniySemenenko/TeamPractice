@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { AddSkillDialog, SkillData } from '../add-skill-dialog/add-skill-dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { UpdateSkillDialog } from '../update-skill-dialog/update-skill-dialog';
 import { forkJoin } from 'rxjs';
 
 import {
@@ -37,6 +38,7 @@ import {
 export class SkillsList implements OnInit {
     private readonly skilsService = inject(SkillsService);
     readonly authService = inject(AuthService);
+
     private dialog = inject(MatDialog);
 
     isDeleteActive = signal(false);
@@ -114,9 +116,37 @@ export class SkillsList implements OnInit {
         }
     }
 
+    
+    //
+    openUpdateSkillDialog(skill: SkillMastery): void {
+      const dialogRef = this.dialog.open(UpdateSkillDialog , {
+        width: '500px',
+        disableClose: true,
+        data: {
+          skill: skill,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result: SkillData | undefined) => {
+        if (result) {
+          console.log('Updated skill:', result);
+
+          this.skilsService
+            .updateProfileSkill(this.authService.currentUserId() ?? '', result.skill)
+            .subscribe({
+              next: (res) => {
+                console.log('update skill res: ', res.data?.updateProfileSkill);
+                this.skills.update((skills) => skills.map(s => s.name === result.skill.name ? result.skill : s));
+              },
+              error: (err) => console.log(err),
+            });
+        }
+      });
+    }
+
     openAddSkillDialog(): void {
         const dialogRef = this.dialog.open(AddSkillDialog, {
-            width: '450px',
+            width: '500px',
             disableClose: true,
             data: {
                 skills: this.skills(),

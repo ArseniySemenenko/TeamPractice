@@ -42,6 +42,7 @@ html {
             enabled-trigger-text-color: white,
             enabled-arrow-color: white,
             panel-background-color: #353535,
+            disabled-trigger-text-color: #767676,
         )
     );
 
@@ -86,6 +87,12 @@ html {
             outlined-input-text-color: #ffffff,
             outlined-input-text-placeholder-color: #c0c0c0,
             outlined-hover-label-text-color: #c0c0c0,
+
+            outlined-disabled-input-text-color: #767676,
+            outlined-disabled-label-text-color: #767676,
+            outlined-disabled-outline-color: #767676,
+            
+
         )
     );
 

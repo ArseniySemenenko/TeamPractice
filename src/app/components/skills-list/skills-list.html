@@ -1,5 +1,20 @@
-<main class="min-h-full w-full flex justify-center items-center mt-5">
-    <div class="w-[90%] text-white">
+<main class="min-h-full w-full flex flex-col items-center">
+
+
+    <div class="w-full h-[44px]">
+            <div
+                class="text-[#FFFFFFB2] ml-[45px] mt-[16px] text-[16px] "
+            >
+                <a 
+                    class="hover:cursor-pointer"
+                    routerLink="/skills"
+                >
+                    Skills
+                </a>
+            </div>
+    </div>
+
+    <div class="w-[90%] text-white mt-[44px]">
         <div class="container mx-auto px-4">
             @for (cat of skillsCategories(); track cat.id) {
                 @if (!cat.parent) {
@@ -22,7 +37,7 @@
                                         <div 
                                             class="p-4 w-[300px] flex items-center gap-5"
                                             [class]="skillsToDelete().some((s => s.name === skill.name)) ? 'bg-[#252525] rounded-lg' : ''"
-                                            (click)="isDeleteActive() ? skillClickDelete(skill) : null"
+                                            (click)="isDeleteActive() ? skillClickDelete(skill) : openUpdateSkillDialog(skill)"
                                         >
                                             <div
                                                 class="w-[100px] h-1"
@@ -45,18 +60,13 @@
                                                     class="h-full"
                                                     [style.width.%]="masteryValues[skill.mastery]"
                                                     [ngClass]="{
-                                                        'bg-[#767676]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    20 || skillsToDelete().some((s => s.name === skill.name)),
-                                                        'bg-[#29B6F6]':
-                                                            masteryValues[skill.mastery] == 40,
-                                                        'bg-[#66BB6A]':
-                                                            masteryValues[skill.mastery] == 60,
-                                                        'bg-[#FFB800]':
-                                                            masteryValues[skill.mastery] == 80,
-                                                        'bg-[#C63031]':
-                                                            masteryValues[skill.mastery] == 100,
-                                                    }"
+            'bg-[#767676]': skillsToDelete().some((s => s.name === skill.name)),
+            'bg-[#3B3B3B]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
+            'bg-[#29B6F6]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 40,
+            'bg-[#66BB6A]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 60,
+            'bg-[#FFB800]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 80,
+            'bg-[#C63031]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 100
+        }"
                                                 ></div>
                                             </div>
 
@@ -77,7 +87,7 @@
                                                 <div 
                                                     class="p-4 w-[300px] flex items-center gap-5"
                                                     [class]="skillsToDelete().some((s => s.name === skill.name)) ? 'bg-[#252525] rounded-lg' : ''"
-                                                    (click)="isDeleteActive() ? skillClickDelete(skill) : null"
+                                                    (click)="isDeleteActive() ? skillClickDelete(skill) : openUpdateSkillDialog(skill)"
                                                 >
                                                     <div
                                                         class="w-[100px] h-1"
@@ -102,22 +112,13 @@
                                                                 masteryValues[skill.mastery]
                                                             "
                                                             [ngClass]="{
-                                                                'bg-[#767676]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    20 || skillsToDelete().some((s => s.name === skill.name)),
-                                                                'bg-[#29B6F6]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    40,
-                                                                'bg-[#66BB6A]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    60,
-                                                                'bg-[#FFB800]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    80,
-                                                                'bg-[#C63031]':
-                                                                    masteryValues[skill.mastery] ==
-                                                                    100,
-                                                            }"
+            'bg-[#767676]': skillsToDelete().some((s => s.name === skill.name)),
+            'bg-[#3B3B3B]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
+            'bg-[#29B6F6]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 40,
+            'bg-[#66BB6A]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 60,
+            'bg-[#FFB800]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 80,
+            'bg-[#C63031]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 100
+        }"
                                                         ></div>
                                                     </div>
 

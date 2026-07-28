@@ -74,6 +74,14 @@ const DeleteProfileSkill = gql`
     }
 `;
 
+const UpdateProfileSkill = gql`
+    mutation UpdateProfileSkill($args: UpdateProfileSkillInput!) {
+        updateProfileSkill(skill: $args) {
+            id
+        }
+    }
+`;
+
 @Service()
 export class SkillsService {
     private readonly apollo = inject(Apollo);
@@ -115,7 +123,7 @@ export class SkillsService {
     }
 
     deleteProfileSkills(id: string, names: string[]) {
-        return this.apollo.mutate<{deleteProfileSkill: {id: string}}>({
+        return this.apollo.mutate<{ deleteProfileSkill: { id: string } }>({
             mutation: DeleteProfileSkill,
             variables: {
                 args: {
@@ -123,6 +131,20 @@ export class SkillsService {
                     name: names,
                 },
             },
-        })
+        });
+    }
+
+    updateProfileSkill(id: string , skill: SkillMastery) {
+        return this.apollo.mutate<{ updateProfileSkill: { id: string } }>({
+            mutation: UpdateProfileSkill,
+            variables: {
+                args: {
+                    userId: id,
+                    name: skill.name,
+                    categoryId: skill.categoryId,
+                    mastery: skill.mastery,
+                },
+            },
+        });
     }
 }
