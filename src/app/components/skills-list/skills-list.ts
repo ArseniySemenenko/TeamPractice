@@ -116,9 +116,13 @@ export class SkillsList implements OnInit {
         }
     }
 
-    
+
     //
     openUpdateSkillDialog(skill: SkillMastery): void {
+
+      if((this.userId() && this.userId() != this.authService.currentUserId())) {
+        return;
+      }
       const dialogRef = this.dialog.open(UpdateSkillDialog , {
         width: '500px',
         disableClose: true,

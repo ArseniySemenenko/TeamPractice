@@ -37,7 +37,7 @@
                                         <div 
                                             class="p-4 w-[300px] flex items-center gap-5"
                                             [class]="skillsToDelete().some((s => s.name === skill.name)) ? 'bg-[#252525] rounded-lg' : ''"
-                                            (click)="isDeleteActive() ? skillClickDelete(skill) : openUpdateSkillDialog(skill)"
+                                            (click)="isDeleteActive()? skillClickDelete(skill) : openUpdateSkillDialog(skill)"
                                         >
                                             <div
                                                 class="w-[100px] h-1"
@@ -60,8 +60,8 @@
                                                     class="h-full"
                                                     [style.width.%]="masteryValues[skill.mastery]"
                                                     [ngClass]="{
-            'bg-[#767676]': skillsToDelete().some((s => s.name === skill.name)),
-            'bg-[#3B3B3B]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
+            'bg-[#959595]': skillsToDelete().some((s => s.name === skill.name)),
+            'bg-[#767676]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
             'bg-[#29B6F6]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 40,
             'bg-[#66BB6A]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 60,
             'bg-[#FFB800]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 80,
@@ -91,20 +91,14 @@
                                                 >
                                                     <div
                                                         class="w-[100px] h-1"
-                                                        [ngClass]="{
-                                                            'bg-[#767676]': 
-                                                                skillsToDelete().some((s => s.name === skill.name)),
-                                                            'bg-[#3B3B3B]':
-                                                                masteryValues[skill.mastery] == 20,
-                                                            'bg-[#145B7B]':
-                                                                masteryValues[skill.mastery] == 40,
-                                                            'bg-[#335D35]':
-                                                                masteryValues[skill.mastery] == 60,
-                                                            'bg-[#7F5C00]':
-                                                                masteryValues[skill.mastery] == 80,
-                                                            'bg-[#C63031]':
-                                                                masteryValues[skill.mastery] == 100,
-                                                        }"
+                                                         [ngClass]="{
+            'bg-[#959595]': skillsToDelete().some((s => s.name === skill.name)),
+            'bg-[#767676]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
+            'bg-[#29B6F6]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 40,
+            'bg-[#66BB6A]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 60,
+            'bg-[#FFB800]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 80,
+            'bg-[#C63031]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 100
+        }"
                                                     >
                                                         <div
                                                             class="h-full"
@@ -113,7 +107,7 @@
                                                             "
                                                             [ngClass]="{
             'bg-[#767676]': skillsToDelete().some((s => s.name === skill.name)),
-            'bg-[#3B3B3B]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
+            'bg-[white]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 20,
             'bg-[#29B6F6]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 40,
             'bg-[#66BB6A]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 60,
             'bg-[#FFB800]': !skillsToDelete().some((s => s.name === skill.name)) && masteryValues[skill.mastery] == 80,
