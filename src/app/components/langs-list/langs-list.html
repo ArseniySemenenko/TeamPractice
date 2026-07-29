@@ -1,4 +1,20 @@
 <main class="w-full min-h-full flex flex-col items-center">
+
+    @if(!userId()){
+        <div class="w-full h-[44px]">
+            <div
+                class="text-[#FFFFFFB2] ml-[45px] mt-[16px] text-[16px] "
+            >
+                <a 
+                    class="hover:cursor-pointer"
+                    routerLink="/languages"
+                >
+                    Languages
+                </a>
+            </div>
+    </div>
+    }
+
     <div class="min-w-[350px] grid grid-cols-3 gap-30 p-4">
         @for (lang of langs(); track lang.name) {
 
@@ -34,7 +50,7 @@
                 type="button"
                 (click)="deleteLangs()"
             >
-                DELETE 
+                DELETE {{langsToDelete().length}}
             </button>
 
         } @else {

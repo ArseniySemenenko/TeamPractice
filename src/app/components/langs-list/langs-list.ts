@@ -86,37 +86,21 @@ export class LangsList implements OnInit {
             },
         });
 
-        dialogRef.afterClosed().subscribe((result: {lang : LanguageProficiency} | undefined) => {
+        dialogRef.afterClosed().subscribe((result: { lang: LanguageProficiency } | undefined) => {
             if (result) {
                 console.log('Updated lang:', result);
 
-                this.langsService.
-                    updateProfileLang({
-                      userId: this.authService.currentUserId() ?? '',
-                      name: result.lang.name,
-                      proficiency: result.lang.proficiency,
+                this.langsService
+                    .updateProfileLang({
+                        userId: this.authService.currentUserId() ?? '',
+                        name: result.lang.name,
+                        proficiency: result.lang.proficiency,
                     })
                     .subscribe((res) => {
-                      if(res.data?.updateProfileLanguage.languages){
-                        this.langs.set(res.data?.updateProfileLanguage.languages);
-                      }
-                    })
-
-                /*
-                this.skilsService
-                    .updateProfileSkill(this.authService.currentUserId() ?? '', result.skill)
-                    .subscribe({
-                        next: (res) => {
-                            console.log('update skill res: ', res.data?.updateProfileSkill);
-                            this.skills.update((skills) =>
-                                skills.map((s) =>
-                                    s.name === result.skill.name ? result.skill : s,
-                                ),
-                            );
-                        },
-                        error: (err) => console.log(err),
-                    });*/
-
+                        if (res.data?.updateProfileLanguage.languages) {
+                            this.langs.set(res.data?.updateProfileLanguage.languages);
+                        }
+                    });
             }
         });
     }
