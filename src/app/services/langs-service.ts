@@ -1,6 +1,12 @@
 import { inject, Service } from '@angular/core';
 import { Apollo, gql } from 'apollo-angular';
-import { AddProfileLanguageInput, DeleteProfileLanguageInput, Language, LanguageProficiency } from 'cv-graphql';
+import {
+    AddProfileLanguageInput,
+    DeleteProfileLanguageInput,
+    Language,
+    LanguageProficiency,
+    UpdateProfileLanguageInput,
+} from 'cv-graphql';
 
 const GetLangsById = gql`
     query GetLangsById($userId: ID!) {
@@ -43,6 +49,17 @@ const DeleteProfileLang = gql`
     }
 `;
 
+const UpdateProfileLang = gql`
+    mutation UpdateProfileLang($args: UpdateProfileLanguageInput!) {
+        updateProfileLanguage(language: $args) {
+            languages {
+                name
+                proficiency
+            }
+        }
+    }
+`;
+
 @Service()
 export class LangsService {
     private readonly apollo = inject(Apollo);
@@ -62,6 +79,15 @@ export class LangsService {
         });
     }
 
+    updateProfileLang(args: UpdateProfileLanguageInput) {
+        return this.apollo.mutate<{updateProfileLanguage: {languages: LanguageProficiency[]}}>({
+            mutation: UpdateProfileLang,
+            variables: {
+                args: args,
+            }
+        })
+    }
+
     addProfileLang(args: AddProfileLanguageInput) {
         return this.apollo.mutate<{
             addProfileLanguage: { id: string; languages: LanguageProficiency[] };
@@ -74,11 +100,11 @@ export class LangsService {
     }
 
     deleteProfileLangs(args: DeleteProfileLanguageInput) {
-        return this.apollo.mutate<{deleteProfileLanguage: {id: string}}>({
+        return this.apollo.mutate<{ deleteProfileLanguage: { id: string } }>({
             mutation: DeleteProfileLang,
             variables: {
                 args: args,
-            }
-        })
+            },
+        });
     }
 }

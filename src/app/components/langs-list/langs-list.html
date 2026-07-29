@@ -4,7 +4,7 @@
 
             <div 
                 class="flex justify-between px-2 py-1 gap-15"
-                (click)="isDeleteActive() ? langDeleteClick(lang) : null"
+                (click)="isDeleteActive() ? langDeleteClick(lang) : openUpdateLangDialog(lang)"
             >
                 <span [class]="langsToDelete().some(l => l.name == lang.name) ? 'text-white' : 'text-[#767676]'">{{ lang.name }}</span>
                 <span

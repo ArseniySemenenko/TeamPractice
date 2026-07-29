@@ -1,0 +1,63 @@
+<div class="flex flex-col">
+    <div class="dialog-header flex items-center justify-between">
+        <h2 mat-dialog-title class="text-white!">Update Language</h2>
+        <button mat-icon-button (click)="onCancel()" class="mx-5">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <form [formGroup]="langForm" class="w-full!">
+        <mat-dialog-content>
+            <div>
+                 <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Language</mat-label>
+                    <mat-select formControlName="lang">
+                            <mat-option class="text-white!" [value]="data.lang.name">
+                                {{ data.lang.name }}
+                            </mat-option>
+                    </mat-select>
+                    @if (
+                        langForm.get('lang')?.hasError('required') &&
+                        langForm.get('lang')?.touched
+                    ) {
+                        <mat-error>Language is required</mat-error>
+                    }
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full!">
+                    <mat-label>Proficiency</mat-label>
+                    <mat-select formControlName="proficiency">
+                        @for (prof of profs; track prof) {
+                            <mat-option class="text-white!" [value]="prof">
+                                {{ prof }}
+                            </mat-option>
+                        }
+                    </mat-select>
+                    @if (
+                        langForm.get('proficiency')?.hasError('required') &&
+                        langForm.get('proficiency')?.touched
+                    ) {
+                        <mat-error>Proficiency is required</mat-error>
+                    }
+                </mat-form-field>
+            </div>
+        </mat-dialog-content>
+
+
+        <mat-dialog-actions>
+            <button matButton="outlined" type="button" class="px-15!" (click)="onCancel()">
+                CANCEL
+            </button>
+            <button
+                class="px-15!"
+                matButton="filled"
+                color="primary"
+                type="button"
+                (click)="onAdd()"
+                [disabled]="langForm.invalid"
+            >
+                CONFIRM
+            </button>
+        </mat-dialog-actions>
+    </form>
+</div>

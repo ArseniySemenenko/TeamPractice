@@ -15,6 +15,7 @@ import {
     MatDialogRef,
     MatDialogTitle,
 } from '@angular/material/dialog';
+import { UpdateLangDialog } from '../update-lang-dialog/update-lang-dialog';
 
 @Component({
     selector: 'app-langs-list',
@@ -57,7 +58,9 @@ export class LangsList implements OnInit {
                 name: this.langsToDelete().map((l) => l.name),
             })
             .subscribe(() => {
-                this.langs.update(langs => langs.filter(lang => !this.langsToDelete().some(l => l.name == lang.name)))
+                this.langs.update((langs) =>
+                    langs.filter((lang) => !this.langsToDelete().some((l) => l.name == lang.name)),
+                );
                 this.isDeleteActive.set(false);
                 this.langsToDelete.set([]);
             });
@@ -72,6 +75,50 @@ export class LangsList implements OnInit {
                 }
             });
         }
+    }
+
+    openUpdateLangDialog(lang: LanguageProficiency) {
+        const dialogRef = this.dialog.open(UpdateLangDialog, {
+            width: '500px',
+            disableClose: true,
+            data: {
+                lang: lang,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result: {lang : LanguageProficiency} | undefined) => {
+            if (result) {
+                console.log('Updated lang:', result);
+
+                this.langsService.
+                    updateProfileLang({
+                      userId: this.authService.currentUserId() ?? '',
+                      name: result.lang.name,
+                      proficiency: result.lang.proficiency,
+                    })
+                    .subscribe((res) => {
+                      if(res.data?.updateProfileLanguage.languages){
+                        this.langs.set(res.data?.updateProfileLanguage.languages);
+                      }
+                    })
+
+                /*
+                this.skilsService
+                    .updateProfileSkill(this.authService.currentUserId() ?? '', result.skill)
+                    .subscribe({
+                        next: (res) => {
+                            console.log('update skill res: ', res.data?.updateProfileSkill);
+                            this.skills.update((skills) =>
+                                skills.map((s) =>
+                                    s.name === result.skill.name ? result.skill : s,
+                                ),
+                            );
+                        },
+                        error: (err) => console.log(err),
+                    });*/
+
+            }
+        });
     }
 
     openAddLangDialog() {
