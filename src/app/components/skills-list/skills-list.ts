@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { AddSkillDialog, SkillData } from '../add-skill-dialog/add-skill-dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { UpdateSkillDialog } from '../update-skill-dialog/update-skill-dialog';
-import { forkJoin } from 'rxjs';
 
 import {
     MatDialog,

@@ -1,1 +1,60 @@
-<p>langs-list works!</p>
+<main class="w-full min-h-full flex flex-col items-center">
+    <div class="min-w-[350px] grid grid-cols-3 gap-30 p-4">
+        @for (lang of langs(); track lang.name) {
+
+            <div 
+                class="flex justify-between px-2 py-1 gap-15"
+                (click)="isDeleteActive() ? langDeleteClick(lang) : null"
+            >
+                <span [class]="langsToDelete().some(l => l.name == lang.name) ? 'text-white' : 'text-[#767676]'">{{ lang.name }}</span>
+                <span
+                    [ngClass]="{
+                        'text-white' : langsToDelete().some(l => l.name == lang.name),
+                        'text-[#767676]': lang.proficiency[0] == 'A',
+                        'text-green-400': lang.proficiency[0] == 'B',
+                        'text-[#FFB800]': lang.proficiency[0] == 'C',
+                        'text-[#C63031]': lang.proficiency[0] == 'N',
+                    }"
+                    >{{ lang.proficiency }}</span
+                >
+            </div>
+
+        }
+    </div>
+    <div class="w-[80%] flex justify-end gap-10">
+        @if (isDeleteActive()) {
+
+            <button matButton="outlined" type="button" class="px-15!" (click)="isDeleteActive.set(false); ">
+                CANCEL
+            </button>
+            <button
+                class="px-15!"
+                matButton="filled"
+                color="primary"
+                type="button"
+                (click)="deleteLangs()"
+            >
+                DELETE 
+            </button>
+
+        } @else {
+            @if (!userId() || userId() == authService.currentUserId()) {
+                <div
+                    class="text-[#767676] flex items-center gap-2 hover:cursor-pointer"
+                    (click)="openAddLangDialog()"
+                >
+                    <mat-icon class="text-[#767676]!"> add </mat-icon>
+                    <span>ADD LANGUAGE</span>
+                </div>
+
+                <div
+                    class="text-[#C63031] flex items-center gap-2 hover:cursor-pointer"
+                    (click)="isDeleteActive.set(!isDeleteActive())"
+                >
+                    <mat-icon class="text-[#C63031]!"> delete </mat-icon>
+                    <span>REMOVE SKILLS</span>
+                </div>
+            }
+        }
+    </div>
+</main>

@@ -123,7 +123,7 @@ const UpdateUser = gql`
     }
 `;
 
-interface getEmployeesRes {
+interface getEmployeesRes { // удалить, перевести на User
     users: Employee[];
 }
 export interface Employee {
