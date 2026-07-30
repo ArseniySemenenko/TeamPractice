@@ -11,6 +11,7 @@ import { mainGuard } from './guards/main-guard';
 import { UserProfile } from './components/user-profile/user-profile';
 import { LangsList } from './components/langs-list/langs-list';
 import { ProfileDetails } from './components/profile-details/profile-details';
+import { CvsList } from './components/cvs-list/cvs-list';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -38,6 +39,7 @@ export const routes: Routes = [
             ]},
             {path: 'skills' , component: SkillsList},
             {path: 'languages' , component: LangsList},
+            {path: 'cvs' , component: CvsList},
         ],
         
         canActivate: [mainGuard],

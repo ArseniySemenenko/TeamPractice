@@ -1,0 +1,98 @@
+<div class="min-h-screen p-6 text-gray-200 font-sans">
+    <!-- Верхняя панель: Поиск + Кнопка -->
+    <div class="flex items-center justify-between mb-6">
+        <!-- Поисковый инпут -->
+        <div
+            class="h-[40px] w-[300px] flex items-center rounded-[40px] border-[#FFFFFF14] border text-white mb-4 mt-[8px] px-3 focus:outline-0"
+        >
+            <mat-icon matPrefix class="text-white! opacity-70!">search</mat-icon>
+            <input
+                (keyup)="applyFilter($event)"
+                #input
+                class="text-white h-[80%] w-full focus:outline-0 ml-2"
+            />
+        </div>
+
+        <!-- Кнопка CREATE CV -->
+        <button
+            (click)="openAddCvDialog()"
+            mat-button
+            class="!text-[#c63031] font-semibold tracking-wider hover:!bg-[#f05a48]/10 flex items-center gap-1"
+        >
+            <mat-icon class="!w-5 !h-5 !text-[20px] text-[#c63031]!">add</mat-icon>
+            CREATE CV
+        </button>
+    </div>
+
+    <!-- Таблица Material -->
+    <table
+        multiTemplateDataRows
+        mat-table
+        [dataSource]="dataSource"
+        matSort
+        matSortDirection="asc"
+    >
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let elem" class="border-b-0!">{{ elem.name }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="education">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Education</th>
+            <td mat-cell *matCellDef="let elem" class="border-b-0!">{{ elem.education }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="employee">
+            <th mat-header-cell *matHeaderCellDef>Employee</th>
+            <td mat-cell *matCellDef="let elem" class="border-b-0!">{{ authService.currentUser().email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th
+                mat-header-cell
+                *matHeaderCellDef
+                class="!text-white !font-semibold !text-sm !py-4 w-12"
+            ></th>
+            <td mat-cell *matCellDef="let element" class="border-b-0! !pt-5 !pb-1 text-right w-12">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="menu"
+                    class="!text-gray-400 hover:!text-white"
+                >
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button 
+                        mat-menu-item
+                        class="!text-white"
+                    >Edit</button>
+                    <button 
+                        mat-menu-item 
+                        class="!text-[#c63031]"
+                        (click)="openDeleteCvDialog(element)"
+                    >Delete</button>
+                </mat-menu>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="descriptionRow"> 
+            <td
+                mat-cell
+                *matCellDef="let element"
+                [attr.colspan]="displayedColumns.length"
+            >
+                <p class="text-[#767676]">{{ element.description }}</p>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+        <tr mat-row *matRowDef="let element; columns: ['descriptionRow']" class="description-row"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{ input.value }}"</td>
+        </tr>
+    </table>
+</div>

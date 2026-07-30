@@ -19,6 +19,13 @@ html {
         )
     );
 
+    @include mat.menu-overrides(
+        (
+            divider-color: red,
+            container-color: #353535,
+        )
+    );
+
     @include mat.tabs-overrides(
         (
             active-label-text-color: #c63031,
@@ -91,8 +98,6 @@ html {
             outlined-disabled-input-text-color: #767676,
             outlined-disabled-label-text-color: #767676,
             outlined-disabled-outline-color: #767676,
-            
-
         )
     );
 
