@@ -78,6 +78,10 @@ export class LangsList implements OnInit {
     }
 
     openUpdateLangDialog(lang: LanguageProficiency) {
+        if (this.userId() && this.userId() != this.authService.currentUserId()) {
+            return;
+        }
+
         const dialogRef = this.dialog.open(UpdateLangDialog, {
             width: '500px',
             disableClose: true,

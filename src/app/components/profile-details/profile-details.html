@@ -9,7 +9,7 @@
                         <div
                             class="rounded-[50%] object-cover w-[120px] h-[120px] bg-[#757575] text-[#353535] text-[40px] flex items-center justify-center"
                         >
-                            {{ currentProfile().profile.first_name?.[0]?.toUpperCase() || '' }}
+                            {{ authService.currentUser().profile.first_name?.[0]?.toUpperCase() || '' }}
                         </div>
                     } @else {
                         <img
