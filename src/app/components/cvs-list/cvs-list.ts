@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth-service';
 import { CvsService } from '../../services/cvs-service';
 import { Cv } from 'cv-graphql';
-
+import { RouterLink } from '@angular/router';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
@@ -22,6 +22,7 @@ import { DeleteCvDialog } from '../delete-cv-dialog/delete-cv-dialog';
         MatMenuModule,
         MatSortModule,
         MatSort,
+        RouterLink,
     ],
     templateUrl: './cvs-list.html',
     styleUrl: './cvs-list.css',
@@ -36,11 +37,11 @@ export class CvsList implements OnInit {
     displayedColumns: string[] = ['name', 'education', 'employee', 'actions' ];
 
     ngOnInit() {
-        this.cvsService.getCvsToTable(this.authService.currentUserId() ?? '').subscribe({
+        this.cvsService.getCvs().subscribe({
             next: (result) => {
-                if (result.data?.user.cvs) {
-                    this.dataSource.data = result.data.user.cvs;
-                    console.log(result.data.user.cvs);
+                if (result.data?.cvs) {
+                    this.dataSource.data = result.data.cvs;
+                    console.log(result.data.cvs);
                 }
             },
             error: (error) => {

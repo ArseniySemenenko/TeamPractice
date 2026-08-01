@@ -12,6 +12,11 @@ import { UserProfile } from './components/user-profile/user-profile';
 import { LangsList } from './components/langs-list/langs-list';
 import { ProfileDetails } from './components/profile-details/profile-details';
 import { CvsList } from './components/cvs-list/cvs-list';
+import { CvDetails } from './components/cv-details/cv-details';
+import { CvProfile } from './components/cv-profile/cv-profile';
+import { CvSkills } from './components/cv-skills/cv-skills';
+import { CvProjects } from './components/cv-projects/cv-projects';
+import { CvPreview } from './components/cv-preview/cv-preview';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -40,6 +45,15 @@ export const routes: Routes = [
             {path: 'skills' , component: SkillsList},
             {path: 'languages' , component: LangsList},
             {path: 'cvs' , component: CvsList},
+            {path: 'cvs/:cvId' , component: CvDetails,
+                children: [
+                    {path: '' , redirectTo: 'details', pathMatch: 'full'},
+                    {path: 'details' , component: CvProfile},
+                    {path: 'skills' , component: CvSkills},
+                    {path: 'projects' , component: CvProjects},
+                    {path: 'preview' , component: CvPreview},
+                ]
+            },
         ],
         
         canActivate: [mainGuard],

@@ -1,0 +1,53 @@
+{{ cvId() }}
+
+<main>
+    @if (cvId()) {
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="w-[50%]!">
+            <a
+                class=""
+                mat-tab-link
+                [routerLink]="['/cvs', cvId(), 'details']"
+                routerLinkActive
+                #rla_profile="routerLinkActive"
+                [active]="rla_profile.isActive"
+                >DETAILS</a
+            >
+
+            <a
+                class=""
+                mat-tab-link
+                [routerLink]="['/cvs', cvId(), 'skills']"
+                routerLinkActive
+                #rla_skills="routerLinkActive"
+                [active]="rla_skills.isActive"
+                >SKILLS</a
+            >
+
+            <a
+                class=""
+                mat-tab-link
+                [routerLink]="['/cvs', cvId(), 'projects']"
+                routerLinkActive
+                #rla_proj="routerLinkActive"
+                [active]="rla_proj.isActive"
+                >PROJECTS</a
+            >
+
+            <a
+                class=""
+                mat-tab-link
+                [routerLink]="['/cvs', cvId(), 'preview']"
+                routerLinkActive
+                #rla_prev="routerLinkActive"
+                [active]="rla_prev.isActive"
+                >PREVIEW</a
+            >
+        </nav>
+    }
+
+    <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
+
+    <div>
+        <router-outlet></router-outlet>
+    </div>
+</main>
