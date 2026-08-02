@@ -1,5 +1,5 @@
 <main class="flex h-full w-full">
-    <nav class="flex justify-between sticky top-0  flex-col w-[15%] min-w-[150px] h-screen">
+    <nav class="flex justify-between sticky top-0  flex-col min-w-[170px] h-screen">
         <div class="justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
             <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
@@ -65,13 +65,13 @@
 
         <div>
             <div
-                class="h-[56px] w-full self-end text-white flex items-center gap-3 hover:cursor-pointer"
+                class="h-[56px] w-full self-end text-white flex gap-2 items-center justify-around hover:cursor-pointer"
                 [routerLink]="['/users' , authService.currentUserId()]"
             >
                 <div>
                     @if (!authService.currentUser().profile.avatar) {
                         <div
-                            class="rounded-[50%] object-cover w-[40px] h-[40px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
+                            class="rounded-[50%] object-cover w-[35px] h-[35px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
                         >
                             {{
                                 authService.currentUser().profile.first_name?.[0]?.toUpperCase() ||
