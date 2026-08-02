@@ -149,7 +149,9 @@
                 type="button"
                 (click)="deleteSkills()"
             >
-                DELETE {{skillsToDelete().length}}
+                <div class="flex gap-2">
+                    <span>DELETE</span> <div class="rounded-[50%] h-[20px] w-[20px] bg-white"> <span class="text-[#c63031]">{{skillsToDelete().length}}</span> </div>
+                </div>
             </button>
             } @else {
                 @if (!userId() || userId() == authService.currentUserId()) {

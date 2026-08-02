@@ -1,76 +1,82 @@
 <main class="flex h-full w-full">
-    <nav class="flex justify-between sticky top-0 left-0 flex-col w-50 h-screen">
+    <nav class="flex justify-between sticky top-0  flex-col w-[15%] min-w-[150px] h-screen">
         <div class="justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
-            <div 
+            <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/users"
                 routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
                 #rla_emp="routerLinkActive"
             >
-
-            <mat-icon 
-                class="mx-[15px]" 
-                [ngClass]="rla_emp.isActive ? 'text-white!' : 'text-gray-400!'">
-                group
-            </mat-icon>
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_emp.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
+                    group
+                </mat-icon>
 
                 <p>Employees</p>
             </div>
 
-            <div 
+            <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/skills"
                 routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
-                #rla_skills = "routerLinkActive"
+                #rla_skills="routerLinkActive"
             >
-                <mat-icon 
-                    class="mx-[15px]" 
-                    [ngClass]="rla_skills.isActive ? 'text-white!' : 'text-gray-400!'">
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_skills.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
                     trending_up
                 </mat-icon>
                 <p>Skills</p>
             </div>
 
-            <div 
+            <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/languages"
                 routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
                 #rla_lang="routerLinkActive"
             >
-                <mat-icon 
-                    class="mx-[15px]" 
-                    [ngClass]="rla_lang.isActive ? 'text-white!' : 'text-gray-400!'">
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_lang.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
                     translate
                 </mat-icon>
                 <p>Languages</p>
             </div>
 
-            <div 
+            <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
                 routerLink="/cvs"
                 routerLinkActive="bg-[#FFFFFF14] rounded-r-full"
-                #rla_cvs = 'routerLinkActive'
+                #rla_cvs="routerLinkActive"
             >
-                <mat-icon 
-                    class="mx-[15px]" 
+                <mat-icon
+                    class="mx-[15px]"
                     [ngClass]="rla_cvs.isActive ? 'text-white!' : 'text-gray-400!'"
-                    >
+                >
                     contact_page
                 </mat-icon>
                 <p>CVs</p>
             </div>
         </div>
 
-        <div class="h-[56px] w-full self-end text-white flex items-center justify-around">
-
+        <div>
+            <div
+                class="h-[56px] w-full self-end text-white flex items-center gap-2 hover:cursor-pointer"
+                [routerLink]="['/users' , authService.currentUserId()]"
+            >
                 <div>
-                    @if (
-                        !authService.currentUser().profile.avatar
-                    ) {
+                    @if (!authService.currentUser().profile.avatar) {
                         <div
                             class="rounded-[50%] object-cover w-[40px] h-[40px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
                         >
-                            {{ authService.currentUser().profile.first_name?.[0]?.toUpperCase() || '' }}
+                            {{
+                                authService.currentUser().profile.first_name?.[0]?.toUpperCase() ||
+                                    ''
+                            }}
                         </div>
                     } @else {
                         <img
@@ -81,27 +87,22 @@
                 </div>
 
                 <div>
-                    <p
-                    class="text-[14px]"
-                >{{authService.currentUser().profile.full_name}}</p>
+                    <p class="text-[14px]">{{ authService.currentUser().profile.full_name }}</p>
                 </div>
             </div>
+
+            <div class="h-[50px] w-full flex justify-start">
+                <button 
+                    class="h-[40px] w-[40px] hover:cursor-pointer flex justify-center items-center"
+                    (click)="authService.logOut()"
+                >
+                    <mat-icon class="text-white"> navigate_before </mat-icon>
+                </button>
+            </div>
+        </div>
     </nav>
 
     <div class="w-full">
-        <!--<div class="w-full h-[44px]">
-            <div
-                class="text-[#FFFFFFB2] ml-[20px] pt-[16px] text-[16px]"
-            >
-                <a 
-                    class="hover:cursor-pointer"
-                    [routerLink]="`/main/${filter()}`"
-                >
-                    {{filter() | firstLetterUpper}}
-                </a>
-            </div>
-        </div>-->
-
         <div class="w-full h-full">
             <router-outlet></router-outlet>
         </div>

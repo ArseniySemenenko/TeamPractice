@@ -8,15 +8,18 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatError } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-signup',
-  imports: [ FormsModule ,MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, RouterLink],
+  imports: [ FormsModule ,MatButtonModule, MatFormFieldModule, MatIconModule, MatInputModule, RouterLink, MatError],
   templateUrl: './signup.html',
   styleUrl: './signup.css',
 })
 export class Signup {
   private readonly authService = inject(AuthService);
+
+  error = signal("");
 
   //form signals
   email = signal<string>('');
@@ -25,6 +28,12 @@ export class Signup {
   hidePassword = signal<boolean>(true);
 
   submitForm(){
+
+    if(this.email() == "" || this.password() == ""){
+      this.error.set('Password or Email cant be empty');
+      return;
+    }
+
     console.log('email: ' , this.email());
     console.log('password: ' , this.password());
     if(this.email() || this.password()){
@@ -36,7 +45,7 @@ export class Signup {
       this.authService.signup(payload)
       .subscribe({
         error: (err) => {
-          console.log(err);
+          this.error.set(err.message);
         }
       });
     }

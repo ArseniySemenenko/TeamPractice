@@ -19,6 +19,8 @@ export class Login {
 
   private readonly authService = inject(AuthService);
 
+  error = signal("");
+
   //form signals
   email = signal<string>('admin@example.com');
   password = signal<string>('admin123');
@@ -26,6 +28,17 @@ export class Login {
   hidePassword = signal<boolean>(true);
 
   submitForm(){
+
+    if(this.email() == "" || this.password() == ""){
+      this.error.set('Password or Email cant be empty');
+      return;
+    }
+
+    if(!this.email().includes("@") || !this.email().includes(".")){
+      this.error.set('Email not provided');
+      return;
+    }
+
     console.log('email: ' , this.email());
     console.log('password: ' , this.password());
     if(this.email() || this.password()){
@@ -37,7 +50,9 @@ export class Login {
       this.authService.login(payload)
       .subscribe({
         error: (err) => {
-          console.log(err);
+          if(err.message == "Invalid credentials"){
+            this.error.set("Wrong format of email or password");
+          }
         }
       });
     }

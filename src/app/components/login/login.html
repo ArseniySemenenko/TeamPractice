@@ -4,7 +4,7 @@
         <p class="text-white text-[1.1em]">Hello again! Log in to continue</p>
     </div>
 
-    <div class="flex flex-col w-full">
+    <div class="flex flex-col w-full items-center">
         <mat-form-field appearance="outline" class="w-full">
             <mat-label>Email</mat-label>
 
@@ -31,6 +31,10 @@
                 <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
         </mat-form-field>
+
+        @if (error() != '') {
+            <mat-error> {{ error() }} </mat-error>
+        }
     </div>
 
     <div class="flex flex-col items-center gap-5">

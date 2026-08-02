@@ -62,6 +62,12 @@ export class AuthService {
 
     readonly isAuth = computed(() => this.tokensService.accessToken() !== '');
 
+    logOut(){
+        this.tokensService.setTokens("" , "");
+        this.router.navigate(['auth' , 'login'])
+        console.log('log out');
+    }
+
     login(args: AuthInput): Observable<LoginResult> {
         return this.apollo
             .query<LoginResult, LoginArgs>({
