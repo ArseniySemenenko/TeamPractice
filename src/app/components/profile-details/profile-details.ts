@@ -69,7 +69,7 @@ export class ProfileDetails {
       return !this.selectedPos() || this.selectedPos() == this.currentProfile().position?.id;
     })
 
-    isUpdateDisabled = computed(() => {
+    isUpdateDisabled = linkedSignal(() => {
         return this.isNameInvalid() && this.isDepartmentInvalid() && this.isPositionInvalid();
     });
 
@@ -167,6 +167,7 @@ export class ProfileDetails {
                             },
                         }));
                     }
+                    this.isUpdateDisabled.set(true);
                 });
         }
     }

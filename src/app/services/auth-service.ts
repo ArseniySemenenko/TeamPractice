@@ -127,7 +127,18 @@ export class AuthService {
                         authResult.signup.access_token,
                         authResult.signup.refresh_token,
                     );
+
                     this._currentUserId.set(authResult.signup.user.id);
+
+                    if(this._currentUserId()){
+                        this.usersService.getUser(this._currentUserId() ?? '')
+                        .subscribe((res) => {
+                            if(res.data?.user){
+                                this.currentUser.set(res.data.user);
+                            }
+                        })
+                    }
+
                     console.log(
                         'token exp: ',
                         this.jwt.getTokenExpiry(this.tokensService.accessToken()),

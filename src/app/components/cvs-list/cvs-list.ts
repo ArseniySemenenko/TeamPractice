@@ -41,7 +41,7 @@ export class CvsList implements OnInit {
             next: (result) => {
                 if (result.data?.cvs) {
                     this.dataSource.data = result.data.cvs;
-                    console.log(result.data.cvs);
+                    console.log('cvs: ' ,  result.data.cvs);
                 }
             },
             error: (error) => {
