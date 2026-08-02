@@ -1,4 +1,4 @@
-<main class="w-full min-h-full flex flex-col items-center">
+<main class="w-full  min-h-full flex flex-col items-center">
 
     @if(!userId()){
         <div class="w-full h-[44px]">
@@ -15,7 +15,7 @@
     </div>
     }
 
-    <div class="min-w-[350px] grid grid-cols-3 gap-30 p-4">
+    <div class="w-[60%] md:w-full lg:w-full grid lg:grid-cols-3 md:grid-cols-2 gap-10 lg:gap-30 p-4">
         @for (lang of langs(); track lang.name) {
 
             <div 
@@ -37,7 +37,7 @@
 
         }
     </div>
-    <div class="w-[80%] flex justify-end gap-10">
+    <div class="mt-10 lg:mt-0 md:mt-0 w-[80%] flex justify-end gap-10">
         @if (isDeleteActive()) {
 
             <button matButton="outlined" type="button" class="px-15!" (click)="isDeleteActive.set(false); ">
