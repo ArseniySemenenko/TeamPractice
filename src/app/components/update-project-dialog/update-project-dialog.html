@@ -1,0 +1,103 @@
+<div class="flex flex-col">
+    <div class="dialog-header flex items-center justify-between">
+        <h2 mat-dialog-title class="text-white!">Update project</h2>
+        <button mat-icon-button (click)="onCancel()" class="mx-5">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+
+    <mat-dialog-content>
+        <div>
+            <div class="flex gap-5">
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Project</mat-label>
+                    <mat-select [(ngModel)]="selectedProject" disabled>
+                            <mat-option class="text-white!" [value]="this.data.project.id">
+                                {{ this.data.project.name }}
+                            </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Domain</mat-label>
+                    <input matInput type="text" [(ngModel)]="domain" disabled />
+                </mat-form-field>
+            </div>
+
+            <div class="flex gap-5">
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Start Date</mat-label>
+                    <input matInput type="date" [(ngModel)]="startDate" />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>End Date</mat-label>
+                    <input matInput type="date" [(ngModel)]="endDate" />
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Description</mat-label>
+                    <textarea
+                        matInput
+                        rows="5"
+                        cols="50"
+                        [(ngModel)]="description"
+                        disabled
+                    ></textarea>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Environment</mat-label>
+
+                    <mat-chip-grid
+                        #chipGrid
+                        aria-label="Enter keywords"
+                        [(ngModel)]="projEnv"
+                        disabled
+                    >
+                        @for (keyword of projEnv(); track keyword) {
+                            <mat-chip-row>
+                                {{ keyword }}
+                                <button matChipRemove [attr.aria-label]="'remove ' + keyword">
+                                    <mat-icon>cancel</mat-icon>
+                                </button>
+                            </mat-chip-row>
+                        }
+                    </mat-chip-grid>
+                </mat-form-field>
+            </div>
+
+            <div>
+                <mat-form-field appearance="outline" class="text-white!" class="w-full!">
+                    <mat-label>Responsibilities</mat-label>
+                    <textarea
+                        matInput
+                        rows="1"
+                        cols="1"
+                        [(ngModel)]="responsibilities"
+                    ></textarea>
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button matButton="outlined" type="button" class="px-15!" (click)="onCancel()">
+            CANCEL
+        </button>
+        <button
+            class="px-15!"
+            matButton="filled"
+            color="primary"
+            type="button"
+            (click)="onAdd()"
+            [disabled]="!selectedProject() || !startDate() || !endDate() || !responsibilities()"
+        >
+            UPDATE
+        </button>
+    </mat-dialog-actions>
+</div>

@@ -106,6 +106,7 @@ export class AuthService {
                         this.jwt.getTokenExpiry(this.tokensService.accessToken()),
                     );
                     console.log('access token: ', this.tokensService.accessToken());
+                    console.log('refresh token: ', this.tokensService.refreshToken());
                     console.log('isAuth: ', this.isAuth());
                     console.log('user: ', this.currentUserId());
                     this.router.navigate(['/users']);

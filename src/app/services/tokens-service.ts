@@ -22,22 +22,23 @@ export class TokensService {
     private readonly apollo = inject(Apollo);
 
     private _accessToken = signal("");
-    private _refreshToken = "";
+    private _refreshToken = signal("");
 
     readonly accessToken = this._accessToken.asReadonly();
+    readonly refreshToken = this._refreshToken.asReadonly();
 
     setTokens(access: string , refresh: string){
         this._accessToken.set(access);
-        this._refreshToken = refresh;
+        this._refreshToken.set(refresh);
     }
 
     updateTokens(){
-        console.log(this._refreshToken);
+        console.log(this._refreshToken());
         this.apollo.mutate<UpdateTokenResult>({
             mutation: UPDATE_TOKENS,
             context: {
                 headers: {
-                    Authorization: this._refreshToken ? `Bearer ${this._refreshToken}` : '',
+                    Authorization: this._refreshToken() ? `Bearer ${this._refreshToken()}` : '',
                     'X-UPDATE' : "true",
                 }
             }
@@ -47,10 +48,13 @@ export class TokensService {
                 console.log('updated tokens func: ' , res.data)
                 if(res.data){
                     this._accessToken.set(res.data.access_token);
-                    this._refreshToken = res.data.refresh_token;
+                    this._refreshToken.set(res.data.refresh_token);
                 }
+                console.log('access token: ', this._accessToken()); 
+                console.log('refresh token: ', this._refreshToken());
             })
         )
+        .subscribe();
     }
 
     //Check is exp == now, and update if need

@@ -26,6 +26,13 @@ html {
         )
     );
 
+    @include mat.chips-overrides((
+    disabled-label-text-color: #989696,
+    disabled-outline-color: #3b3b3b,
+    container-shape-radius: 30px,
+    elevated-disabled-container-color: #3b3b3b,
+  ));
+
     @include mat.tabs-overrides(
         (
             active-label-text-color: #c63031,
