@@ -14,8 +14,15 @@ const GetUsersAsEmployees = gql`
                 last_name
                 avatar
             }
+            department{
+                id
+            }
             department_name
             position_name
+            position{
+                id
+            }
+            role
         }
     }
 `;
@@ -119,31 +126,18 @@ const UpdateUser = gql`
                 name
             }
             position_name
+            role
         }
     }
 `;
 
-interface getEmployeesRes { // удалить, перевести на User
-    users: Employee[];
-}
-export interface Employee {
-    id: string;
-    email: string;
-    profile: {
-        first_name: string;
-        last_name: string;
-        avatar: string;
-    };
-    department_name: string;
-    position_name: string;
-}
 
 @Service()
 export class UsersService {
     private readonly apollo = inject(Apollo);
 
     getEmployees() {
-        return this.apollo.query<getEmployeesRes>({
+        return this.apollo.query<{users: User[]}>({
             query: GetUsersAsEmployees,
         });
     }
@@ -170,16 +164,14 @@ export class UsersService {
         });
     }
 
-    updateUser(id: string, depId: string  , positionId: string , role: UserRole){
+    updateUser(id: string, depId: string  , positionId: string){
         return this.apollo.mutate<{updateUser: User}>({
             mutation: UpdateUser,
             variables: {
                 user: {
                     userId: id,
-                    cvsIds: [],
                     departmentId: depId,
                     positionId: positionId,
-                    role: role,
                 }
             }
         })

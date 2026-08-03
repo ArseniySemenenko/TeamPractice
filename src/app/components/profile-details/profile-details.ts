@@ -21,6 +21,7 @@ import { tap } from 'rxjs';
 import { DepService } from '../../services/dep-service';
 import { MatSelectModule } from '@angular/material/select';
 import { PosService } from '../../services/pos-service';
+import { CvsService } from '../../services/cvs-service';
 
 @Component({
     selector: 'app-profile-details',
@@ -40,6 +41,7 @@ export class ProfileDetails {
     private readonly usersService = inject(UsersService);
     private readonly depService = inject(DepService);
     private readonly posService = inject(PosService);
+    private readonly cvsService = inject(CvsService);
 
     readonly authService = inject(AuthService);
 
@@ -137,7 +139,6 @@ export class ProfileDetails {
                     this.currentProfile().id,
                     this.selectedDep() ?? '',
                     this.selectedPos() ?? '',
-                    this.currentProfile().role,
                 )
                 .subscribe((res) => {
                     console.log(res);

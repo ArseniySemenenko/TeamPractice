@@ -88,7 +88,11 @@
 
                     @for(elem of element.responsibilities; track elem) {
                         <div class="rounded-2xl bg-[#FFFFFF14] px-3 py-1 my-1 w-fit">
-                            {{ elem }}
+                            @if(elem.length < 20){
+                                {{elem}}
+                            }@else {
+                                {{elem.slice(0,20)}}...
+                            }
                         </div>
                     }
 

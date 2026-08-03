@@ -59,6 +59,7 @@ export class AuthService {
     readonly currentUserId = this._currentUserId.asReadonly();
     
     currentUser = signal<User>({} as User);
+    currentUserPassword = signal('');
 
     readonly isAuth = computed(() => this.tokensService.accessToken() !== '');
 
@@ -69,6 +70,7 @@ export class AuthService {
     }
 
     login(args: AuthInput): Observable<LoginResult> {
+
         return this.apollo
             .query<LoginResult, LoginArgs>({
                 query: LOGIN,
@@ -109,6 +111,7 @@ export class AuthService {
                     console.log('refresh token: ', this.tokensService.refreshToken());
                     console.log('isAuth: ', this.isAuth());
                     console.log('user: ', this.currentUserId());
+                    this.currentUserPassword.set(args.password);
                     this.router.navigate(['/users']);
                 }),
             );

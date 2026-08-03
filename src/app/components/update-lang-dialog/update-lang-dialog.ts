@@ -26,7 +26,7 @@ import { LangsService } from '../../services/langs-service';
     styleUrl: './update-lang-dialog.css',
 })
 export class UpdateLangDialog {
-    private fb = inject(FormBuilder);
+    private readonly fb = inject(FormBuilder);
     dialogRef = inject(MatDialogRef<UpdateLangDialog>);
     public data = inject<{ lang: LanguageProficiency }>(MAT_DIALOG_DATA);
 

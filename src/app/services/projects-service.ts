@@ -7,9 +7,6 @@ import { RemoveCvProjectInput } from 'cv-graphql';
 const GetAllProjects = gql`
     query GetAllProjects {
         projects {
-            project {
-                id
-            }
             id
             created_at
             name
