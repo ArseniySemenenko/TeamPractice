@@ -48,14 +48,14 @@
         <td mat-cell *matCellDef="let elem" >{{elem.profile.first_name}}</td>
     </ng-container>
 
-    <ng-container matColumnDef="l_name" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
-        <td mat-cell *matCellDef="let elem" >{{elem.profile.last_name}}</td>
+    <ng-container matColumnDef="l_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="sm:hidden md:hidden lg:table-cell">Last Name</th>
+        <td mat-cell *matCellDef="let elem" class="sm:hidden md:hidden lg:table-cell">{{elem.profile.last_name}}</td>
     </ng-container>
 
     <ng-container matColumnDef="email" >
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
-        <td mat-cell *matCellDef="let elem" >{{elem.email}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="sm:hidden md:hidden lg:table-cell">Email</th>
+        <td mat-cell *matCellDef="let elem" class="sm:hidden md:hidden lg:table-cell">{{elem.email}}</td>
     </ng-container>
 
     <ng-container matColumnDef="department" >

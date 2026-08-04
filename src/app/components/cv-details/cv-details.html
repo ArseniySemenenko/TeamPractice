@@ -1,8 +1,16 @@
-{{ cvId() }}
+<div class="w-full h-[44px]">
+            <div class="text-[#FFFFFFB2] ml-[40px] pt-[16px] text-[16px] flex items-center">
+                <a class="hover:cursor-pointer" routerLink="/cvs"> Cvs </a>
+                <mat-icon class="text-[#515151]!"> navigate_next </mat-icon>
+                <span class="text-[#C63031]">
+                    {{cvHeader.cvsHeader()}}
+                </span>
+            </div>
+        </div>
 
 <main>
     @if (cvId()) {
-        <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="w-[50%]!">
+        <nav mat-tab-nav-bar [tabPanel]="tabPanel" class="w-[70%]! md:px-10 lg:px-0">
             <a
                 class=""
                 mat-tab-link

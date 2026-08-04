@@ -74,8 +74,8 @@ export class EmployeesList implements OnInit {
 
     openUpdateUserDialog(user: User){
         const dialogRef = this.dialog.open(UpdateUserDialog, {
-                    width: '1000px',
-                    maxWidth: '1000px',
+                    width: '950px',
+                    maxWidth: '950px',
                     disableClose: true,
                     data: {
                         user: user,
@@ -88,6 +88,15 @@ export class EmployeesList implements OnInit {
                 this.usersService.updateProfile(res.res2.userId , res.res2.first_name , res.res2.last_name)
                 .subscribe((result) => {
                     if (result.data?.updateProfile) {
+                        this.authService.currentUser.update((current) => ({
+                            ...current,
+                            profile: {
+                                ...current.profile,
+                                first_name: result.data?.updateProfile.first_name,
+                                last_name: result.data?.updateProfile.last_name,
+                                full_name: result.data?.updateProfile.full_name,
+                            },
+                        }));
                         this.usersService.updateUser(res.res1.userId , res.res1.departmentId, res.res1.positionId)
                         .subscribe((result2) => {
                             if(result2){

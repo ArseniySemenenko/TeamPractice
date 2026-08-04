@@ -1,5 +1,5 @@
-<main class="flex h-full w-full">
-    <nav class="flex justify-between sticky top-0  flex-col min-w-[170px] h-screen">
+<main class="flex h-full w-full flex-col lg:flex-row">
+    <nav class="hidden lg:flex justify-between sticky top-0 flex-col min-w-[170px] h-screen">
         <div class="justify-between w-full h-[266px] mt-[44px] text-white text-[16px]">
             <div
                 class="w-full h-[56px] flex items-center hover:cursor-pointer"
@@ -66,7 +66,7 @@
         <div>
             <div
                 class="h-[56px] w-full self-end text-white flex items-center justify-around hover:cursor-pointer"
-                [routerLink]="['/users' , authService.currentUserId()]"
+                [routerLink]="['/users', authService.currentUserId()]"
             >
                 <div>
                     @if (!authService.currentUser().profile.avatar) {
@@ -92,7 +92,7 @@
             </div>
 
             <div class="h-[50px] w-full flex justify-start">
-                <button 
+                <button
                     class="h-[40px] w-[40px] hover:cursor-pointer flex justify-center items-center"
                     (click)="authService.logOut()"
                 >
@@ -102,9 +102,117 @@
         </div>
     </nav>
 
-    <div class="w-full">
+    <div class="w-full md:pb-[56px] sm:pb-[56px]">
         <div class="w-full h-full">
             <router-outlet></router-outlet>
         </div>
     </div>
+
+    <nav
+        class="lg:hidden flex justify-between gap-1 bg-[#353535] z-1 fixed bottom-0 w-full h-[56px]"
+    >
+        <div class="flex justify-around px-1 items-center w-full text-white text-[16px]">
+            <div
+                class="h-fit w-fit min-w-[150px] px-3 py-2 flex items-center hover:cursor-pointer"
+                routerLink="/users"
+                routerLinkActive="bg-[#FFFFFF14] rounded-full"
+                #rla_emp="routerLinkActive"
+            >
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_emp.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
+                    group
+                </mat-icon>
+
+                <p>Employees</p>
+            </div>
+
+            <div
+                class="h-fit w-fit min-w-[150px] px-3 py-2 flex items-center hover:cursor-pointer"
+                routerLink="/skills"
+                routerLinkActive="bg-[#FFFFFF14] rounded-full"
+                #rla_skills="routerLinkActive"
+            >
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_skills.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
+                    trending_up
+                </mat-icon>
+                <p>Skills</p>
+            </div>
+
+            <div
+                class="h-fit w-fit min-w-[150px] px-3 py-2 flex items-center hover:cursor-pointer"
+                routerLink="/languages"
+                routerLinkActive="bg-[#FFFFFF14] rounded-full"
+                #rla_lang="routerLinkActive"
+            >
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_lang.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
+                    translate
+                </mat-icon>
+                <p>Languages</p>
+            </div>
+
+            <div
+                class="h-fit w-fit min-w-[150px] px-3 py-2 flex items-center justify-center hover:cursor-pointer"
+                routerLink="/cvs"
+                routerLinkActive="bg-[#FFFFFF14] rounded-full"
+                #rla_cvs="routerLinkActive"
+            >
+                <mat-icon
+                    class="mx-[15px]"
+                    [ngClass]="rla_cvs.isActive ? 'text-white!' : 'text-gray-400!'"
+                >
+                    contact_page
+                </mat-icon>
+                <p>CVs</p>
+            </div>
+        </div>
+
+        <div>
+            <div
+                class="h-[56px] w-full text-white flex gap-2 items-center justify-around hover:cursor-pointer"
+                [routerLink]="['/users', authService.currentUserId()]"
+            >
+                <div>
+                    @if (!authService.currentUser().profile.avatar) {
+                        <div
+                            class="rounded-[50%] object-cover w-[35px] h-[35px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
+                        >
+                            {{
+                                authService.currentUser().profile.first_name?.[0]?.toUpperCase() ||
+                                    ''
+                            }}
+                        </div>
+                    } @else {
+                        <img
+                            class="rounded-[50%] object-cover w-[40px] h-[40px]"
+                            [src]="authService.currentUser().profile.avatar"
+                        />
+                    }
+                </div>
+
+                <div>
+                    <p class="text-[14px]">
+                        {{fName()}}
+                        {{lName()}}
+                    </p>
+                </div>
+
+                <div>
+                    <button
+                        class="h-[40px] w-[40px] hover:cursor-pointer flex justify-center items-center"
+                        (click)="authService.logOut()"
+                    >
+                        <mat-icon class="text-white"> navigate_before </mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
 </main>

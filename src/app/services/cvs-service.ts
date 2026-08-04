@@ -123,17 +123,80 @@ const DeleteCvSkills = gql`
     }
 `;
 
+const GetCvById = gql`
+    query GetCv($args: ID!) {
+        cv(cvId: $args) {
+            id
+            created_at
+            name
+            education
+            description
+            projects {
+                id
+                name
+                internal_name
+                description
+                domain
+                start_date
+                end_date
+                environment
+                roles
+                responsibilities
+            }
+
+            skills {
+                name
+                categoryId
+                mastery
+            }
+            languages {
+                name
+                proficiency
+            }
+            user {
+                id
+                created_at
+                email
+                is_verified
+                profile {
+                    first_name
+                    last_name
+                }
+                department {
+                    created_at
+                    name
+                    id
+                }
+                position {
+                    created_at
+                    name
+                    id
+                }
+            }
+        }
+    }
+`;
+
 @Service()
 export class CvsService {
     private readonly apollo = inject(Apollo);
 
-    deleteCvSkills(args: DeleteCvSkillInput){
-        return this.apollo.mutate<{deleteCvSkill: {skills: SkillMastery[]}}>({
+    getCvById(id: string){
+        return this.apollo.query<{cv: Cv}>({
+            query: GetCvById,
+            variables: {
+                args: id,
+            }
+        })
+    }
+
+    deleteCvSkills(args: DeleteCvSkillInput) {
+        return this.apollo.mutate<{ deleteCvSkill: { skills: SkillMastery[] } }>({
             mutation: DeleteCvSkills,
             variables: {
                 args: args,
-            }
-        })
+            },
+        });
     }
 
     updateCvSkill(args: UpdateCvSkillInput) {

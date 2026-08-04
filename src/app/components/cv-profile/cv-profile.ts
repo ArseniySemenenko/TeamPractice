@@ -4,6 +4,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { CvsService } from '../../services/cvs-service';
+import { CvsHeaderService } from '../../services/cvs-header-service';
 
 @Component({
     selector: 'app-cv-profile',
@@ -14,6 +15,7 @@ import { CvsService } from '../../services/cvs-service';
 export class CvProfile implements OnInit {
     private readonly fb = inject(FormBuilder);
     private readonly cvsService = inject(CvsService);
+    cvsHeader = inject(CvsHeaderService);
 
     cvId = input.required<string>();
 
@@ -31,6 +33,8 @@ export class CvProfile implements OnInit {
 
     submitForm() {
         if (this.form.value) {
+            this.cvsHeader.cvsHeader.set(this.form.value.name ?? '');
+            console.log('set header: ', this.cvsHeader.cvsHeader());
             this.cvsService.updateCvProfileById({
                 cvId: this.cvId(),
                 name: this.form.value.name ?? '',
@@ -47,6 +51,8 @@ export class CvProfile implements OnInit {
         this.cvsService.getCvProfileById(this.cvId()).subscribe((res) => {
             if (res.data?.cv) {
                 console.log(res.data.cv); 
+                this.cvsHeader.cvsHeader.set(res.data.cv.name);
+                console.log("set header: " , this.cvsHeader.cvsHeader());
                 this.form.patchValue({
                     name: res.data.cv.name,
                     education: res.data.cv.education,

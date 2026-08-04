@@ -38,8 +38,8 @@
         </ng-container>
 
         <ng-container matColumnDef="education">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Education</th>
-            <td mat-cell *matCellDef="let elem" class="border-b-0!">{{ elem.education }}</td>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="sm:hidden md:hidden lg:table-cell">Education</th>
+            <td mat-cell *matCellDef="let elem" class="border-b-0! sm:hidden md:hidden lg:table-cell">{{ elem.education }}</td>
         </ng-container>
 
         <ng-container matColumnDef="employee">

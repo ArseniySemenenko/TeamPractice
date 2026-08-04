@@ -41,7 +41,6 @@ export class ProfileDetails {
     private readonly usersService = inject(UsersService);
     private readonly depService = inject(DepService);
     private readonly posService = inject(PosService);
-    private readonly cvsService = inject(CvsService);
 
     readonly authService = inject(AuthService);
 
