@@ -81,6 +81,10 @@ html {
             outlined-hover-state-layer-opacity: 0.1,
             outlined-state-layer-color: #999999,
             outlined-ripple-color: #999999,
+            
+            outlined-disabled-label-text-color: #4d4d4d,
+            outlined-disabled-outline-color: #4d4d4d,        // Цвет рамки в disabled
+
         )
     );
 

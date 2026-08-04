@@ -1,5 +1,5 @@
 @if (cv()) {
-    <div class="mt-10 max-w-5xl mx-auto p-10 bg-[#2b2b2b] text-[#e0e0e0] font-sans">
+    <div #preview class="mt-10 max-w-5xl mx-auto p-10 bg-[#2b2b2b] text-[#e0e0e0] font-sans">
         <!-- Header -->
         <header class="flex justify-between items-start mb-10">
             <div>
@@ -17,7 +17,12 @@
             <button
                 mat-button
                 matButton="outlined"
-                class="!text-[#c63031] !border-[#c63031] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031] flex items-center gap-1">
+                (click)="exportPdf()"
+                [disabled]="exportLock()"
+                
+                [class]=" exportLock() ? '!text-[#454545] !border-[#454545] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]' : '!text-[#c63031] !border-[#c63031] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]' "
+
+                class="flex items-center gap-1">
                 EXPORT PDF
             </button>
         </header>
@@ -58,7 +63,8 @@
                 <div class="space-y-4">
                     <div class="w-full text-white mt-11">
                         <div class="container mx-auto">
-                            @for (cat of skillsCategories(); track cat.id) {
+                            @if(cv()){
+                                @for (cat of skillsCategories(); track cat.id) {
                                 @if (!cat.parent) {
                                     <!-- Проверяем наличие скиллов у родительской или дочерних категорий -->
                                     @if (
@@ -107,6 +113,7 @@
                                         </div>
                                     }
                                 }
+                            }
                             }
                         </div>
                     </div>

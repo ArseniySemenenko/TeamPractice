@@ -41,9 +41,7 @@ export class CvSkills implements OnInit{
 
     readonly authService = inject(AuthService);
 
-    private dialog = inject(MatDialog);
-
-    userId = signal("610"); //...............
+    private dialog = inject(MatDialog); //...............
 
     currentCv = signal<Cv>({} as Cv);
 

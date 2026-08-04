@@ -138,7 +138,7 @@
                 </div>
             </button>
             } @else {
-                @if (!userId() || userId() == authService.currentUserId()) {
+                @if (currentCv().user?.id == authService.currentUser().id) {
                     <div
                         class="text-[#767676] flex items-center gap-2 hover:cursor-pointer"
                         (click)="openAddSkillDialog()"
