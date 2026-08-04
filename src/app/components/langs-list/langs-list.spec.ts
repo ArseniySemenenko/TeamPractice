@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { ApolloTestingModule } from 'apollo-angular/testing';
 
 import { LangsList } from './langs-list';
 
@@ -8,7 +10,13 @@ describe('LangsList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LangsList],
+      imports: [
+        LangsList,
+        ApolloTestingModule, // Resolves Apollo injected by LangsService
+      ],
+      providers: [
+        provideRouter([]), // Resolves router navigation or directives
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(LangsList);

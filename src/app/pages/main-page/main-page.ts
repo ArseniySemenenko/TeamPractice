@@ -37,8 +37,8 @@ export class MainPage implements OnInit {
 
     fName = linkedSignal(() => {
         const user = this.authService.currentUser();
-        console.log(user.profile.first_name?.length);
-        if (user.profile.first_name?.length) {
+        if(user.profile){
+            if (user.profile.first_name?.length) {
             if(user.profile?.first_name?.length < 8){
               return user.profile.first_name;
             }
@@ -46,19 +46,21 @@ export class MainPage implements OnInit {
               return user.profile.first_name?.slice(0 , 8) + "...";
             }
         }
+        }
         return ""
     });
 
     lName = linkedSignal(() => {
         const user = this.authService.currentUser();
-        console.log(user.profile.last_name?.length);
-        if (user.profile.last_name?.length) {
+        if(user.profile){
+            if (user.profile.last_name?.length) {
             if(user.profile?.last_name?.length < 8){
               return user.profile.last_name;
             }
             else{
               return user.profile.last_name?.slice(0 , 8) + "...";
             }
+        }
         }
         return ""
     });

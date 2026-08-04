@@ -8,9 +8,11 @@
 
     
         <mat-dialog-content >
-            <div class="text-white! flex items-center justify-center gap-1">
+            @if(data.project){
+                <div class="text-white! flex items-center justify-center gap-1">
                 <p>Are you sure you want to delete project</p><strong>{{data.project.name}}</strong> ? 
             </div>
+            }
         </mat-dialog-content>
 
 

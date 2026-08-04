@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { ApolloTestingModule } from 'apollo-angular/testing';
 
 import { UsersService } from './users-service';
 
@@ -6,7 +7,9 @@ describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [ApolloTestingModule],
+    });
     service = TestBed.inject(UsersService);
   });
 

@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideRouter } from '@angular/router';
+import { ApolloTestingModule } from 'apollo-angular/testing';
 
 import { SkillsList } from './skills-list';
 
@@ -8,7 +10,13 @@ describe('SkillsList', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SkillsList],
+      imports: [
+        SkillsList,
+        ApolloTestingModule, // Resolves missing Apollo provider
+      ],
+      providers: [
+        provideRouter([]), // Resolves router directive/service injection
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SkillsList);

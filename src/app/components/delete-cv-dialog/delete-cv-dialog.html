@@ -9,7 +9,9 @@
     
         <mat-dialog-content >
             <div class="text-white! flex items-center justify-center gap-1">
-                <p>Are you sure you want to delete CV</p><strong>{{data.cv.name}}</strong> ? 
+                @if(data.cv){
+                    <p>Are you sure you want to delete CV</p><strong>{{data.cv.name}}</strong> ? 
+                }
             </div>
         </mat-dialog-content>
 

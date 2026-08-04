@@ -69,7 +69,8 @@
                 [routerLink]="['/users', authService.currentUserId()]"
             >
                 <div>
-                    @if (!authService.currentUser().profile.avatar) {
+                    @if(authService.currentUser().profile){
+                        @if (!authService.currentUser().profile.avatar) {
                         <div
                             class="rounded-[50%] object-cover w-[35px] h-[35px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
                         >
@@ -84,10 +85,13 @@
                             [src]="authService.currentUser().profile.avatar"
                         />
                     }
+                    }
                 </div>
 
                 <div>
-                    <p class="text-[14px]">{{ authService.currentUser().profile.full_name }}</p>
+                    @if(authService.currentUser().profile){
+                        <p class="text-[14px]">{{ authService.currentUser().profile.full_name }}</p>
+                    }
                 </div>
             </div>
 
@@ -180,7 +184,8 @@
                 [routerLink]="['/users', authService.currentUserId()]"
             >
                 <div>
-                    @if (!authService.currentUser().profile.avatar) {
+                    @if(authService.currentUser().profile){
+                        @if (!authService.currentUser().profile.avatar) {
                         <div
                             class="rounded-[50%] object-cover w-[35px] h-[35px] bg-[#C63031] text-[#353535] text-[20px] flex items-center justify-center"
                         >
@@ -194,6 +199,7 @@
                             class="rounded-[50%] object-cover w-[40px] h-[40px]"
                             [src]="authService.currentUser().profile.avatar"
                         />
+                    }
                     }
                 </div>
 

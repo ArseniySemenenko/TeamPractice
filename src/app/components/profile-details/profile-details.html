@@ -3,7 +3,8 @@
         <div class="w-full flex flex-col items-center gap-10">
             <div class="flex items-center gap-20">
                 <div>
-                    @if (
+                    @if(currentProfile().profile){
+                        @if (
                         !currentProfile().profile.avatar
                     ) {
                         <div
@@ -16,6 +17,7 @@
                             class="rounded-[50%] object-cover w-[120px] h-[120px]"
                             [src]="currentProfile().profile.avatar"
                         />
+                    }
                     }
                 </div>
 
@@ -36,15 +38,18 @@
 
             <div class="text-white text-[24px] flex flex-col items-center gap-5">
                 <div>
-                    <span>
+                   @if(currentProfile().profile){
+                     <span>
                         {{ currentProfile().profile.first_name }}
                     </span>
                     <span>
                         {{ currentProfile().profile.last_name }}
                     </span>
+                   }
                 </div>
 
-                <div class="flex flex-col text-[16px] items-center">
+                @if(currentProfile().profile){
+                    <div class="flex flex-col text-[16px] items-center">
                     <span class="text-[#FFFFFFB2]">
                         {{ currentProfile().email }}
                     </span>
@@ -53,6 +58,7 @@
                         {{ currentProfile().profile.created_at | date: 'EEE MMM d yyyy' }}</span
                     >
                 </div>
+                }
             </div>
 
             @if (authService.currentUserId() == currentProfile().id) {

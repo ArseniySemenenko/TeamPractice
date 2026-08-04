@@ -6,12 +6,14 @@
                 <mat-icon class="text-[#515151]!"> navigate_next </mat-icon>
                 <mat-icon class="text-[#C63031]!"> person-outlined </mat-icon>
                 <span class="text-[#C63031]">
-                    @if (userId() == authService.currentUserId()) {
+                    @if(currentProfile().profile){
+                        @if (userId() == authService.currentUserId()) {
                         {{ authService.currentUser().profile.last_name }}
                         {{ authService.currentUser().profile.first_name }}
                     } @else {
                         {{ currentProfile().profile.last_name }}
                         {{ currentProfile().profile.first_name }}
+                    }
                     }
                 </span>
             </div>
