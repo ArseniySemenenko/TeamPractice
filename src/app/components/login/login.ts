@@ -21,6 +21,8 @@ export class Login {
 
   error = signal("");
 
+  isSubmitDisabled = signal(false);
+
   //form signals
   email = signal<string>('for.my.unity65@gmail.com');
   password = signal<string>('admin123');
@@ -28,6 +30,7 @@ export class Login {
   hidePassword = signal<boolean>(true);
 
   submitForm(){
+    this.isSubmitDisabled.set(true);
 
     if(this.email() == "" || this.password() == ""){
       this.error.set('Password or Email cant be empty');
@@ -50,6 +53,7 @@ export class Login {
       this.authService.login(payload)
       .subscribe({
         error: (err) => {
+          this.isSubmitDisabled.set(false);
           if(err.message == "Invalid credentials"){
             this.error.set("Wrong email or password");
           }

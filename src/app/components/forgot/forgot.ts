@@ -3,7 +3,7 @@ import { MatFormField } from '@angular/material/form-field';
 import { MatLabel } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -18,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 export class Forgot {
 
     private readonly authService = inject(AuthService);
+    private readonly router = inject(Router);
 
     email = signal<string>('');
 
@@ -26,8 +27,11 @@ export class Forgot {
     if(this.email()){
       this.authService.forgot({email: this.email()})
       .subscribe({
+        next: () => {
+          this.router.navigate(['auth', 'login']);
+        },
         error: (err) => {
-          console.log(err);
+          this.router.navigate(['auth', 'login']);
         }
       });
     }

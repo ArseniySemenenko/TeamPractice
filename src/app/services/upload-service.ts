@@ -18,7 +18,7 @@ export class UploadService {
             mutation: UploadAvatar,
             variables: {
                 args: args,
-            }
+            },
         })
     }
 }

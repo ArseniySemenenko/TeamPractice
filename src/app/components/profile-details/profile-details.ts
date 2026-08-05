@@ -69,8 +69,8 @@ export class ProfileDetails {
     });
 
     isPositionInvalid = computed(() => {
-      return !this.selectedPos() || this.selectedPos() == this.currentProfile().position?.id;
-    })
+        return !this.selectedPos() || this.selectedPos() == this.currentProfile().position?.id;
+    });
 
     isUpdateDisabled = linkedSignal(() => {
         return this.isNameInvalid() && this.isDepartmentInvalid() && this.isPositionInvalid();
@@ -78,27 +78,38 @@ export class ProfileDetails {
 
     base64Avatar: string | null = null;
 
-    uploadChange(event: Event){
+    uploadChange(event: Event) {
         const input = event.target as HTMLInputElement;
 
-        if(input.files && input.files[0]){
-            console.log("uploaded!");
+        if (input.files && input.files[0]) {
             const file = input.files[0];
+            
+            // Проверка размера (0.5 MB = 524288 байт)
+            if (file.size > 524288) {
+                alert('File is bigger then 0.5 MB');
+                return;
+            }
+
             const fr = new FileReader();
 
             fr.onload = () => {
-                this.base64Avatar = String(fr.result).split(',')[1];
+                const result = fr.result as string;
+                // Извлекаем только Base64 части после запятой
+                this.base64Avatar = result.includes(',') ? result.split(',')[1] : result;
 
-                this.uploadService.uploadAvatar({
-                    userId: this.authService.currentUser().id,
-                    base64: this.base64Avatar,
-                    type: file.type,
-                    size: file.size,
-                })
-                .subscribe((res) => {
-                    console.log(res);
-                })
-            }
+                this.uploadService
+                    .uploadAvatar({
+                        // Если аргумент GraphQL мутации ожидает объект $args: UploadAvatarInput
+                            userId: this.authService.currentUser().id,
+                            base64: this.base64Avatar,
+                            type: file.type,
+                            size: file.size,
+                    })
+                    .subscribe({
+                        next: (res) => console.log('Avatar uploaded:', res),
+                        error: (err) => console.error('Upload error:', err),
+                    });
+            };
 
             fr.readAsDataURL(file);
         }
@@ -120,8 +131,7 @@ export class ProfileDetails {
                     !!res.data?.user.department &&
                         this.selectedDep.set(res.data?.user.department.id);
 
-                    !!res.data?.user.position&&
-                        this.selectedPos.set(res.data?.user.position.id);
+                    !!res.data?.user.position && this.selectedPos.set(res.data?.user.position.id);
                 }),
             )
             .subscribe((res) => {
@@ -148,36 +158,36 @@ export class ProfileDetails {
     }
 
     updateSubmit() {
-        console.log("submit click")
+        console.log('submit click');
         if (!this.isDepartmentInvalid() || !this.isPositionInvalid()) {
-          console.log("1 1")
+            console.log('1 1');
             this.updateUser();
             console.log('this.updateUser()');
         }
         if (!this.isNameInvalid()) {
-          console.log("2 2")
+            console.log('2 2');
             this.updateProfile();
             console.log('this.updateProfile()');
         }
     }
 
     updateUser() {
-          console.log(1)
-            this.usersService
-                .updateUser(
-                    this.currentProfile().id,
-                    this.selectedDep() ?? '',
-                    this.selectedPos() ?? '',
-                )
-                .subscribe((res) => {
-                    console.log(res);
-                    if (res.data?.updateUser) {
-                        this.currentProfile.set(res.data.updateUser);
-                        if (!this.isNameInvalid()) {
-                            this.updateProfile();
-                        }
+        console.log(1);
+        this.usersService
+            .updateUser(
+                this.currentProfile().id,
+                this.selectedDep() ?? '',
+                this.selectedPos() ?? '',
+            )
+            .subscribe((res) => {
+                console.log(res);
+                if (res.data?.updateUser) {
+                    this.currentProfile.set(res.data.updateUser);
+                    if (!this.isNameInvalid()) {
+                        this.updateProfile();
                     }
-                });
+                }
+            });
     }
 
     updateProfile() {
@@ -193,7 +203,7 @@ export class ProfileDetails {
                                 ...current.profile,
                                 first_name: this.f_name(),
                                 last_name: this.l_name(),
-                                full_name: this.f_name() + " " + this.l_name()
+                                full_name: this.f_name() + ' ' + this.l_name(),
                             },
                         }));
                     }

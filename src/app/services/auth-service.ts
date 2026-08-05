@@ -13,6 +13,13 @@ export type LoginResult = { login: AuthResult };
 
 export type SignupArgs = { auth: AuthInput };
 export type SignupResult = { signup: AuthResult };
+import { ResetPasswordInput } from 'cv-graphql';
+
+const resetPassword = gql`
+    mutation ResetPassword($args: ResetPasswordInput!) {
+        resetPassword(auth: $args)
+    }
+`;
 
 export const LOGIN = gql`
     query Login($auth: AuthInput!) {
@@ -47,7 +54,6 @@ export const FORGOT = gql`
 
 @Service()
 export class AuthService {
-  
     private readonly apollo = inject(Apollo);
     private readonly router = inject(Router);
     private readonly jwt = inject(JwtService);
@@ -57,20 +63,34 @@ export class AuthService {
     private _currentUserId = signal<string | null>(null);
 
     readonly currentUserId = this._currentUserId.asReadonly();
-    
+
     currentUser = signal<User>({} as User);
     currentUserPassword = signal('');
 
     readonly isAuth = computed(() => this.tokensService.accessToken() !== '');
 
-    logOut(){
-        this.tokensService.setTokens("" , "");
-        this.router.navigate(['auth' , 'login'])
+    logOut() {
+        this.tokensService.setTokens('', '');
+        this.router.navigate(['auth', 'login']);
         console.log('log out');
     }
 
-    login(args: AuthInput): Observable<LoginResult> {
+    resetPassword(args: ResetPasswordInput , token: string) {
+        return this.apollo.mutate({
+            mutation: resetPassword,
+            context: {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'X-UPDATE': 'true', // Флаг для пропуска в интерцепторе
+                    },
+                },
+                variables: {
+                    args: args
+                }
+        })
+    }
 
+    login(args: AuthInput): Observable<LoginResult> {
         return this.apollo
             .query<LoginResult, LoginArgs>({
                 query: LOGIN,
@@ -94,13 +114,12 @@ export class AuthService {
 
                     this._currentUserId.set(authResult.login.user.id);
 
-                    if(this._currentUserId()){
-                        this.usersService.getUser(this._currentUserId() ?? '')
-                        .subscribe((res) => {
-                            if(res.data?.user){
+                    if (this._currentUserId()) {
+                        this.usersService.getUser(this._currentUserId() ?? '').subscribe((res) => {
+                            if (res.data?.user) {
                                 this.currentUser.set(res.data.user);
                             }
-                        })
+                        });
                     }
 
                     console.log(
@@ -118,7 +137,6 @@ export class AuthService {
     }
 
     verify_login(args: AuthInput): Observable<LoginResult> {
-
         return this.apollo
             .query<LoginResult, LoginArgs>({
                 query: LOGIN,
@@ -142,13 +160,12 @@ export class AuthService {
 
                     this._currentUserId.set(authResult.login.user.id);
 
-                    if(this._currentUserId()){
-                        this.usersService.getUser(this._currentUserId() ?? '')
-                        .subscribe((res) => {
-                            if(res.data?.user){
+                    if (this._currentUserId()) {
+                        this.usersService.getUser(this._currentUserId() ?? '').subscribe((res) => {
+                            if (res.data?.user) {
                                 this.currentUser.set(res.data.user);
                             }
-                        })
+                        });
                     }
 
                     console.log(
@@ -186,13 +203,12 @@ export class AuthService {
 
                     this._currentUserId.set(authResult.signup.user.id);
 
-                    if(this._currentUserId()){
-                        this.usersService.getUser(this._currentUserId() ?? '')
-                        .subscribe((res) => {
-                            if(res.data?.user){
+                    if (this._currentUserId()) {
+                        this.usersService.getUser(this._currentUserId() ?? '').subscribe((res) => {
+                            if (res.data?.user) {
                                 this.currentUser.set(res.data.user);
                             }
-                        })
+                        });
                     }
 
                     console.log(

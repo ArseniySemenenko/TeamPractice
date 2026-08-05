@@ -3,21 +3,23 @@
         <div class="w-full flex flex-col items-center gap-10">
             <div class="flex items-center gap-20">
                 <div>
-                    @if(currentProfile().profile){
-                        @if (
-                        !currentProfile().profile.avatar
-                    ) {
-                        <div
-                            class="rounded-[50%] object-cover w-[120px] h-[120px] bg-[#757575] text-[#353535] text-[40px] flex items-center justify-center"
-                        >
-                            {{ authService.currentUser().profile.first_name?.[0]?.toUpperCase() || '' }}
-                        </div>
-                    } @else {
-                        <img
-                            class="rounded-[50%] object-cover w-[120px] h-[120px]"
-                            [src]="currentProfile().profile.avatar"
-                        />
-                    }
+                    @if (currentProfile().profile) {
+                        @if (!currentProfile().profile.avatar) {
+                            <div
+                                class="rounded-[50%] object-cover w-[120px] h-[120px] bg-[#757575] text-[#353535] text-[40px] flex items-center justify-center"
+                            >
+                                {{
+                                    authService
+                                        .currentUser()
+                                        .profile.first_name?.[0]?.toUpperCase() || ''
+                                }}
+                            </div>
+                        } @else {
+                            <img
+                                class="rounded-[50%] object-cover w-[120px] h-[120px]"
+                                [src]="currentProfile().profile.avatar"
+                            />
+                        }
                     }
                 </div>
 
@@ -35,34 +37,37 @@
                     </div>
 
                     <!--Upload container-->
+
+                    <!--
                     <div>
                         <input type="file" (change)="uploadChange($event)" placeholder="Upload">
                     </div>
+                -->
                 }
             </div>
 
             <div class="text-white text-[24px] flex flex-col items-center gap-5">
                 <div>
-                   @if(currentProfile().profile){
-                     <span>
-                        {{ currentProfile().profile.first_name }}
-                    </span>
-                    <span>
-                        {{ currentProfile().profile.last_name }}
-                    </span>
-                   }
+                    @if (currentProfile().profile) {
+                        <span>
+                            {{ currentProfile().profile.first_name }}
+                        </span>
+                        <span>
+                            {{ currentProfile().profile.last_name }}
+                        </span>
+                    }
                 </div>
 
-                @if(currentProfile().profile){
+                @if (currentProfile().profile) {
                     <div class="flex flex-col text-[16px] items-center">
-                    <span class="text-[#FFFFFFB2]">
-                        {{ currentProfile().email }}
-                    </span>
-                    <span
-                        >A member since
-                        {{ currentProfile().profile.created_at | date: 'EEE MMM d yyyy' }}</span
-                    >
-                </div>
+                        <span class="text-[#FFFFFFB2]">
+                            {{ currentProfile().email }}
+                        </span>
+                        <span
+                            >A member since
+                            {{ currentProfile().profile.created_at | date: 'EEE MMM d yyyy' }}</span
+                        >
+                    </div>
                 }
             </div>
 
@@ -87,8 +92,10 @@
                             <mat-label>Department</mat-label>
 
                             <mat-select [(ngModel)]="selectedDep" disableRipple>
-                                @for(dep of departments(); track dep.id){
-                                    <mat-option class="text-white!" [value]="dep.id">{{dep.name}}</mat-option>
+                                @for (dep of departments(); track dep.id) {
+                                    <mat-option class="text-white!" [value]="dep.id">{{
+                                        dep.name
+                                    }}</mat-option>
                                 }
                             </mat-select>
                         </mat-form-field>
@@ -97,8 +104,10 @@
                             <mat-label>Position</mat-label>
 
                             <mat-select [(ngModel)]="selectedPos" disableRipple>
-                                @for(pos of positions(); track pos.id){
-                                    <mat-option class="text-white!" [value]="pos.id">{{pos.name}}</mat-option>
+                                @for (pos of positions(); track pos.id) {
+                                    <mat-option class="text-white!" [value]="pos.id">{{
+                                        pos.name
+                                    }}</mat-option>
                                 }
                             </mat-select>
                         </mat-form-field>
@@ -115,16 +124,15 @@
                         </button>
                     </div>
                 </div>
-            }
 
-            @else{
+            } @else {
                 <div class="w-full text-2xl text-white flex flex-1 justify-around">
                     <div>
-                        {{currentProfile().department_name}}
+                        {{ currentProfile().department_name }}
                     </div>
 
                     <div>
-                        {{currentProfile().position_name}}
+                        {{ currentProfile().position_name }}
                     </div>
                 </div>
             }

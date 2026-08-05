@@ -1,4 +1,4 @@
-import { Component , inject, signal } from '@angular/core';
+import { Component , inject, linkedSignal, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthInput } from 'cv-graphql';
 import { AuthService } from '../../services/auth-service';
@@ -27,7 +27,10 @@ export class Signup {
   //is password hidden
   hidePassword = signal<boolean>(true);
 
+  isSubmitDisabled = signal(false);
+
   submitForm(){
+    this.isSubmitDisabled.set(true);
 
     if(this.email() == "" || this.password() == ""){
       this.error.set('Password or Email cant be empty');
@@ -46,6 +49,7 @@ export class Signup {
       .subscribe({
         error: (err) => {
           this.error.set(err.message);
+          this.isSubmitDisabled.set(false);
         }
       });
     }
