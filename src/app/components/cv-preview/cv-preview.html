@@ -19,10 +19,13 @@
                 matButton="outlined"
                 (click)="exportPdf()"
                 [disabled]="exportLock()"
-                
-                [class]=" exportLock() ? '!text-[#454545] !border-[#454545] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]' : '!text-[#c63031] !border-[#c63031] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]' "
-
-                class="flex items-center gap-1">
+                [class]="
+                    exportLock()
+                        ? '!text-[#454545] !border-[#454545] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]'
+                        : '!text-[#c63031] !border-[#c63031] [--mat-outlined-button-state-layer-color:#c63031] [--mat-outlined-button-ripple-color:#c63031]'
+                "
+                class="flex items-center gap-1"
+            >
                 EXPORT PDF
             </button>
         </header>
@@ -35,7 +38,8 @@
                     <h3 class="text-sm font-semibold text-white mb-1">Education</h3>
                     <p class="text-sm text-[#aaaaaa] leading-relaxed">{{ cv().education }}</p>
                 </div>
-                <div>
+                @if(cv().languages.length != 0){
+                    <div>
                     <h3 class="text-sm font-semibold text-white mb-1">Language proficiency</h3>
                     @for (elem of cv().languages; track elem) {
                         <p class="text-sm text-[#aaaaaa] leading-relaxed">
@@ -43,12 +47,15 @@
                         </p>
                     }
                 </div>
-                <div>
+                }
+                @if(cv().projects?.length != 0){
+                    <div>
                     <h3 class="text-sm font-semibold text-white mb-1">Domains</h3>
                     @for (elem of cv().projects?.map((proj) => proj.domain); track elem) {
                         <p class="text-sm text-[#aaaaaa] leading-relaxed">{{ elem }}</p>
                     }
                 </div>
+                }
             </aside>
 
             <!-- Main Profile Info -->
@@ -63,57 +70,66 @@
                 <div class="space-y-4">
                     <div class="w-full text-white mt-11">
                         <div class="container mx-auto">
-                            @if(cv()){
+                            @if (cv()) {
                                 @for (cat of skillsCategories(); track cat.id) {
-                                @if (!cat.parent) {
-                                    <!-- Проверяем наличие скиллов у родительской или дочерних категорий -->
-                                    @if (
-                                        cv().skills.some((skill) => skill.categoryId == cat.id) ||
-                                        cv().skills.some((skill) =>
-                                            cat.children?.some(
-                                                (child) => child.id == skill.categoryId
+                                    @if (!cat.parent) {
+                                        <!-- Проверяем наличие скиллов у родительской или дочерних категорий -->
+                                        @if (
+                                            cv().skills.some(
+                                                (skill) => skill.categoryId == cat.id
+                                            ) ||
+                                            cv().skills.some((skill) =>
+                                                cat.children?.some(
+                                                    (child) => child.id == skill.categoryId
+                                                )
                                             )
-                                        )
-                                    ) {
-                                        <div class="category-block mb-8">
-                                            <!-- Название категории -->
-                                            <h2 class="text-base font-semibold mb-3 tracking-wide">
-                                                {{ cat.name }}
-                                            </h2>
+                                        ) {
+                                            <div class="category-block mb-8">
+                                                <!-- Название категории -->
+                                                <h2
+                                                    class="text-base font-semibold mb-3 tracking-wide"
+                                                >
+                                                    {{ cat.name }}
+                                                </h2>
 
-                                            <!-- Список скиллов (Flex-ряд с переносом) -->
-                                            <div class="skills-grid flex flex-wrap gap-x-6 gap-y-2">
-                                                <!-- Скиллы родительской категории -->
-                                                @for (skill of cv().skills; track skill.name) {
-                                                    @if (skill.categoryId == cat.id) {
-                                                        <span class="text-sm text-[#aaaaaa]">
-                                                            {{ skill.name }}
-                                                        </span>
+                                                <!-- Список скиллов (Flex-ряд с переносом) -->
+                                                <div
+                                                    class="skills-grid flex flex-wrap gap-x-6 gap-y-2"
+                                                >
+                                                    <!-- Скиллы родительской категории -->
+                                                    @for (skill of cv().skills; track skill.name) {
+                                                        @if (skill.categoryId == cat.id) {
+                                                            <span class="text-sm text-[#aaaaaa]">
+                                                                {{ skill.name }}
+                                                            </span>
+                                                        }
                                                     }
-                                                }
 
-                                                <!-- Скиллы всех дочерних категорий -->
-                                                @if (cat.children) {
-                                                    @for (child of cat.children; track child.id) {
+                                                    <!-- Скиллы всех дочерних категорий -->
+                                                    @if (cat.children) {
                                                         @for (
-                                                            skill of cv().skills;
-                                                            track skill.name
+                                                            child of cat.children;
+                                                            track child.id
                                                         ) {
-                                                            @if (skill.categoryId == child.id) {
-                                                                <span
-                                                                    class="text-sm text-[#aaaaaa]"
-                                                                >
-                                                                    {{ skill.name }}
-                                                                </span>
+                                                            @for (
+                                                                skill of cv().skills;
+                                                                track skill.name
+                                                            ) {
+                                                                @if (skill.categoryId == child.id) {
+                                                                    <span
+                                                                        class="text-sm text-[#aaaaaa]"
+                                                                    >
+                                                                        {{ skill.name }}
+                                                                    </span>
+                                                                }
                                                             }
                                                         }
                                                     }
-                                                }
+                                                </div>
                                             </div>
-                                        </div>
+                                        }
                                     }
                                 }
-                            }
                             }
                         </div>
                     </div>
@@ -122,112 +138,119 @@
         </section>
 
         <!-- Projects Section -->
-        <section class="mt-12 flex flex-col gap-10">
-            <h2 class="text-2xl font-light text-white mb-6">Projects</h2>
-            @for (project of cv().projects; track project) {
-                <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8">
-                    <!-- Project Sidebar -->
-                    <aside class="pr-4">
-                        <h3
-                            class="text-sm font-semibold text-[#c63031] uppercase tracking-wide mb-2"
-                        >
-                            {{ project.name }}
-                        </h3>
-                        <p class="text-sm text-[#aaaaaa] leading-relaxed">
-                            {{ project.description }}
-                        </p>
-                    </aside>
-
-                    <!-- Project Details -->
-                    <main class="pl-6 border-l border-[#c63031] space-y-6">
-                        <div>
-                            <h3 class="text-sm font-semibold text-white mb-1">Project roles</h3>
-                            <p class="text-sm text-[#aaaaaa]">{{ project.roles }}</p>
-                        </div>
-
-                        <div>
-                            <h3 class="text-sm font-semibold text-white mb-1">Period</h3>
-                            <p class="text-sm text-[#aaaaaa]">
-                                {{ project.start_date }} – {{ project.end_date }}
+        @if (cv().projects?.length != 0) {
+            <section class="mt-12 flex flex-col gap-10">
+                <h2 class="text-2xl font-light text-white mb-6">Projects</h2>
+                @for (project of cv().projects; track project) {
+                    <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8">
+                        <!-- Project Sidebar -->
+                        <aside class="pr-4">
+                            <h3
+                                class="text-sm font-semibold text-[#c63031] uppercase tracking-wide mb-2"
+                            >
+                                {{ project.name }}
+                            </h3>
+                            <p class="text-sm text-[#aaaaaa] leading-relaxed">
+                                {{ project.description }}
                             </p>
-                        </div>
+                        </aside>
 
-                        <div>
-                            <h3 class="text-sm font-semibold text-white mb-2">Responsibilities</h3>
-                            <ul class="list-disc list-inside space-y-2 text-sm text-[#aaaaaa]">
-                                @for (res of project.responsibilities; track res) {
-                                    <li>{{res}}</li>
-                                }
-                            </ul>
-                        </div>
+                        <!-- Project Details -->
+                        <main class="pl-6 border-l border-[#c63031] space-y-6">
+                            <div>
+                                <h3 class="text-sm font-semibold text-white mb-1">Project roles</h3>
+                                <p class="text-sm text-[#aaaaaa]">{{ project.roles }}</p>
+                            </div>
 
-                        <div>
-                            <h3 class="text-sm font-semibold text-white mb-1">Environment</h3>
-                            <p class="text-sm text-[#aaaaaa]">
-                                @for (env of project.environment; track env) {
-                                    {{ env }}
-                                }
-                            </p>
-                        </div>
-                    </main>
-                </div>
-            }
-        </section>
+                            <div>
+                                <h3 class="text-sm font-semibold text-white mb-1">Period</h3>
+                                <p class="text-sm text-[#aaaaaa]">
+                                    {{ project.start_date }} – {{ project.end_date }}
+                                </p>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold text-white mb-2">
+                                    Responsibilities
+                                </h3>
+                                <ul class="list-disc list-inside space-y-2 text-sm text-[#aaaaaa]">
+                                    @for (res of project.responsibilities; track res) {
+                                        <li>{{ res }}</li>
+                                    }
+                                </ul>
+                            </div>
+
+                            <div>
+                                <h3 class="text-sm font-semibold text-white mb-1">Environment</h3>
+                                <p class="text-sm text-[#aaaaaa]">
+                                    @for (env of project.environment; track env) {
+                                        {{ env }}
+                                    }
+                                </p>
+                            </div>
+                        </main>
+                    </div>
+                }
+            </section>
+        }
 
         <!-- Professional Skills Table -->
-        <section class="mt-12">
-            <h2 class="text-2xl font-light text-white mb-6">Professional skills</h2>
+        @if (skills().length != 0) {
+            <section class="mt-12">
+                <h2 class="text-2xl font-light text-white mb-6">Professional skills</h2>
 
-            @if (skills()) {
-                <div class="container mx-auto border-t-2 border-[#c63031] py-5">
-                    @for (cat of skillsCategories(); track cat.id) {
-                        @if (!cat.parent) {
-                            <!-- Проверяем наличие скиллов у родительской или дочерних категорий -->
-                            @if (
-                                skills().some((skill) => skill.categoryId == cat.id) ||
-                                skills().some((skill) =>
-                                    cat.children?.some((child) => child.id == skill.categoryId))
-                            ) {
-                                <div
-                                    class="category-block mb-8 flex gap-10 border-b-1 border-white"
-                                >
-                                    <!-- Название категории -->
-                                    <h2
-                                        class="text-base min-w-[200px] text-[#c63031] font-semibold mb-3 tracking-wide"
+                @if (skills()) {
+                    <div class="container mx-auto border-t-2 border-[#c63031] py-5">
+                        @for (cat of skillsCategories(); track cat.id) {
+                            @if (!cat.parent) {
+                                <!-- Проверяем наличие скиллов у родительской или дочерних категорий -->
+                                @if (
+                                    skills().some((skill) => skill.categoryId == cat.id) ||
+                                    skills().some((skill) =>
+                                        cat.children?.some((child) => child.id == skill.categoryId)
+                                    )
+                                ) {
+                                    <div
+                                        class="category-block mb-8 flex gap-10 border-b-1 border-white"
                                     >
-                                        {{ cat.name }}
-                                    </h2>
+                                        <!-- Название категории -->
+                                        <h2
+                                            class="text-base min-w-[200px] text-[#c63031] font-semibold mb-3 tracking-wide"
+                                        >
+                                            {{ cat.name }}
+                                        </h2>
 
-                                    <!-- Список скиллов (Flex-ряд с переносом) -->
-                                    <div class="skills-grid flex flex-wrap gap-x-6 gap-y-2">
-                                        <!-- Скиллы родительской категории -->
-                                        @for (skill of skills(); track skill.name) {
-                                            @if (skill.categoryId == cat.id) {
-                                                <span class="text-sm text-[#aaaaaa]">
-                                                    {{ skill.name }}
-                                                </span>
+                                        <!-- Список скиллов (Flex-ряд с переносом) -->
+                                        <div class="skills-grid flex flex-wrap gap-x-6 gap-y-2">
+                                            <!-- Скиллы родительской категории -->
+                                            @for (skill of skills(); track skill.name) {
+                                                @if (skill.categoryId == cat.id) {
+                                                    <span class="text-sm text-[#aaaaaa]">
+                                                        {{ skill.name }}
+                                                    </span>
+                                                }
                                             }
-                                        }
 
-                                        <!-- Скиллы всех дочерних категорий -->
-                                        @if (cat.children) {
-                                            @for (child of cat.children; track child.id) {
-                                                @for (skill of skills(); track skill.name) {
-                                                    @if (skill.categoryId == child.id) {
-                                                        <span class="text-sm text-[#aaaaaa]">
-                                                            {{ skill.name }}
-                                                        </span>
+                                            <!-- Скиллы всех дочерних категорий -->
+                                            @if (cat.children) {
+                                                @for (child of cat.children; track child.id) {
+                                                    @for (skill of skills(); track skill.name) {
+                                                        @if (skill.categoryId == child.id) {
+                                                            <span class="text-sm text-[#aaaaaa]">
+                                                                {{ skill.name }}
+                                                            </span>
+                                                        }
                                                     }
                                                 }
                                             }
-                                        }
+                                        </div>
                                     </div>
-                                </div>
+                                }
                             }
                         }
-                    }
-                </div>
-            }
-        </section>
+                    </div>
+                }
+            </section>
+        }
     </div>
 }

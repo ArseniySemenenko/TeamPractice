@@ -17,6 +17,7 @@ import { CvProfile } from './components/cv-profile/cv-profile';
 import { CvSkills } from './components/cv-skills/cv-skills';
 import { CvProjects } from './components/cv-projects/cv-projects';
 import { CvPreview } from './components/cv-preview/cv-preview';
+import { VerifyMail } from './components/verify-mail/verify-mail';
 
 export const routes: Routes = [
     {path: "" , redirectTo: "main/employees", pathMatch: 'full'},
@@ -29,8 +30,10 @@ export const routes: Routes = [
         ],
         canActivate: [authGuard],
     },
+//http://localhost:4200/verify-email
+    {path: 'forgot-password' , component: Forgot, canActivate: [authGuard]},
 
-    {path: 'forgot-password' , component: Forgot},
+    {path: 'verify-email' , component: VerifyMail},
 
     {path: "" , component: MainPage, 
         children:[
