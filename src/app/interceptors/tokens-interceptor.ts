@@ -1,18 +1,28 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { TokensService } from '../services/tokens-service';
+import { switchMap } from 'rxjs';
 
 export const tokensInterceptor: HttpInterceptorFn = (req, next) => {
     const tokensService = inject(TokensService);
 
-    let resReq = req;
+    if (req.headers.has('X-UPDATE')) {
+        return next(req);
+    }
+    // 2. Ждем получения валидного токена и только потом отправляем исходный запрос
+    return tokensService.ensureValidToken().pipe(
+        switchMap((accessToken) => {
+            if (!accessToken) {
+                return next(req);
+            }
 
-    tokensService.checkExpAndUpdate();
-    
-    console.log('Else works', tokensService.accessToken());
-    resReq = req.clone({
-        setHeaders: { Authorization: `Bearer ${tokensService.accessToken()}` },
-    });
+            const authorizedReq = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
 
-    return next(resReq);
+            return next(authorizedReq);
+        })
+    );
 };

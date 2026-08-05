@@ -3,6 +3,7 @@ import { JwtService } from './jwt-service';
 import { Apollo, gql } from 'apollo-angular';
 import { UpdateTokenResult } from 'cv-graphql';
 import { tap } from 'rxjs';
+import { Observable , of , map , catchError} from 'rxjs';
 
 const UPDATE_TOKENS = gql`
     mutation UpdateTokens {
@@ -24,46 +25,69 @@ export class TokensService {
     readonly accessToken = this._accessToken.asReadonly();
     readonly refreshToken = this._refreshToken.asReadonly();
 
-    setTokens(access: string, refresh: string) {
+    setTokens(access: string, refresh: string): void {
         this._accessToken.set(access);
         this._refreshToken.set(refresh);
     }
 
-    updateTokens() {
-        console.log(this._refreshToken());
-        this.apollo
-            .mutate<{updateToken: UpdateTokenResult}>({
+    clearTokens(): void {
+        this._accessToken.set('');
+        this._refreshToken.set('');
+    }
+
+    /**
+     * Проверяет токен и обновляет его при необходимости.
+     * Возвращает Observable<string> с актуальным access-токеном.
+     */
+    ensureValidToken(): Observable<string> {
+        const currentToken = this._accessToken();
+        
+        if (!currentToken || this.isExpired(currentToken)) {
+            return this.refreshTokens();
+        }
+
+        return of(currentToken);
+    }
+
+    private refreshTokens(): Observable<string> {
+        const refreshToken = this._refreshToken();
+
+        if (!refreshToken) {
+            this.clearTokens();
+            return of('');
+        }
+
+        return this.apollo
+            .mutate<{ updateToken: UpdateTokenResult }>({
                 mutation: UPDATE_TOKENS,
                 context: {
                     headers: {
-                        Authorization: this._refreshToken() ? `Bearer ${this._refreshToken()}` : '',
-                        'X-UPDATE': 'true',
+                        Authorization: `Bearer ${refreshToken}`,
+                        'X-UPDATE': 'true', // Флаг для пропуска в интерцепторе
                     },
                 },
             })
             .pipe(
-                tap((res) => {
-                    const tokens = res.data?.updateToken;
+                map((res) => res.data?.updateToken),
+                tap((tokens) => {
                     if (tokens) {
-                        this._accessToken.set(tokens.access_token);
-                        this._refreshToken.set(tokens.refresh_token);
+                        this.setTokens(tokens.access_token, tokens.refresh_token);
                     }
-                    console.log('access token: ', this._accessToken());
-                    console.log('refresh token: ', this._refreshToken());
                 }),
-            )
-            .subscribe();
+                map((tokens) => tokens?.access_token ?? ''),
+                catchError((err) => {
+                    this.clearTokens();
+                    throw err;
+                })
+            );
     }
 
-    //Check is exp == now, and update if need
-    checkExpAndUpdate() {
-        //do <=
-        let exp = this.jwt.getTokenExpiry(this._accessToken());
-        if (exp) {
-            if (Number(exp) <= Number(Date.now())) {
-                console.log('udpated tokens');
-                this.updateTokens();
-            }
-        }
+    private isExpired(token: string): boolean {
+        const exp = this.jwt.getTokenExpiry(token);
+        if (!exp) return true;
+        
+        // Добавляем буфер в 5 секунд, чтобы токен не протух в момент перелета по сети
+        const bufferMs = 5000;
+        return Number(exp) <= Date.now() + bufferMs;
     }
 }

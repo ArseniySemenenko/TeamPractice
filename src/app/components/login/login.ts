@@ -22,7 +22,7 @@ export class Login {
   error = signal("");
 
   //form signals
-  email = signal<string>('admin@example.com');
+  email = signal<string>('for.my.unity65@gmail.com');
   password = signal<string>('admin123');
   //is password hidden
   hidePassword = signal<boolean>(true);
@@ -51,7 +51,7 @@ export class Login {
       .subscribe({
         error: (err) => {
           if(err.message == "Invalid credentials"){
-            this.error.set("Wrong format of email or password");
+            this.error.set("Wrong email or password");
           }
         }
       });
