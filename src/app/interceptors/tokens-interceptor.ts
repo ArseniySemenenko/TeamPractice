@@ -3,23 +3,16 @@ import { inject } from '@angular/core';
 import { TokensService } from '../services/tokens-service';
 
 export const tokensInterceptor: HttpInterceptorFn = (req, next) => {
+    const tokensService = inject(TokensService);
 
-  const tokensService = inject(TokensService);
+    let resReq = req;
 
-  tokensService.checkExpAndUpdate();
-
-  let resReq = req;
-
-  if(req.headers.has('X-UPDATE')){
+    tokensService.checkExpAndUpdate();
+    
+    console.log('Else works', tokensService.accessToken());
     resReq = req.clone({
-      headers: req.headers.delete('X-UPDATE'),
+        setHeaders: { Authorization: `Bearer ${tokensService.accessToken()}` },
     });
-  }
-  else{
-      resReq = req.clone({
-        setHeaders: { Authorization: `Bearer ${tokensService.accessToken()}` }
-      });
-  }
 
-  return next(resReq);
+    return next(resReq);
 };

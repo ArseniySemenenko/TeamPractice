@@ -72,52 +72,64 @@ export class EmployeesList implements OnInit {
         this.dataSource.sort = this.sort;
     }
 
-    openUpdateUserDialog(user: User){
+    openUpdateUserDialog(user: User) {
         const dialogRef = this.dialog.open(UpdateUserDialog, {
-                    width: '950px',
-                    maxWidth: '950px',
-                    disableClose: true,
-                    data: {
-                        user: user,
-                    }
-                });
+            width: '950px',
+            maxWidth: '950px',
+            disableClose: true,
+            data: {
+                user: user,
+            },
+        });
 
-        dialogRef.afterClosed()
-        .subscribe((res) => {
-            if(res){
-                this.usersService.updateProfile(res.res2.userId , res.res2.first_name , res.res2.last_name)
-                .subscribe((result) => {
-                    if (result.data?.updateProfile) {
-                        this.authService.currentUser.update((current) => ({
-                            ...current,
-                            profile: {
-                                ...current.profile,
-                                first_name: result.data?.updateProfile.first_name,
-                                last_name: result.data?.updateProfile.last_name,
-                                full_name: result.data?.updateProfile.full_name,
-                            },
-                        }));
-                        this.usersService.updateUser(res.res1.userId , res.res1.departmentId, res.res1.positionId)
-                        .subscribe((result2) => {
-                            if(result2){
-                                this.fetchUsers();
-                            }
-                        })
-                    }
-                })                
+        dialogRef.afterClosed().subscribe((res) => {
+            if (res) {
+                this.usersService
+                    .updateProfile(res.res2.userId, res.res2.first_name, res.res2.last_name)
+                    .subscribe((result) => {
+                        if (result.data?.updateProfile) {
+                            this.authService.currentUser.update((current) => ({
+                                ...current,
+                                profile: {
+                                    ...current.profile,
+                                    first_name: result.data?.updateProfile.first_name,
+                                    last_name: result.data?.updateProfile.last_name,
+                                    full_name: result.data?.updateProfile.full_name,
+                                },
+                            }));
+                            this.usersService
+                                .updateUser(
+                                    res.res1.userId,
+                                    res.res1.departmentId,
+                                    res.res1.positionId,
+                                )
+                                .subscribe((result2) => {
+                                    if (result2) {
+                                        this.fetchUsers();
+                                    }
+                                });
+                        }
+                    });
             }
-        })
+        });
     }
 
-    fetchUsers(){
+    fetchUsers() {
         this.usersService.getEmployees().subscribe((res) => {
             if (res.data) {
                 //set current user first at list
-                const currentUser = res.data.users.find(user => user.id == this.authService.currentUserId());
-                if(currentUser){
-                    this.dataSource.data = [currentUser , ...res.data.users.filter(user => user.id != this.authService.currentUserId())];
-                }else{
-                  this.dataSource.data = res.data.users;
+                const currentUser = res.data.users.find(
+                    (user) => user.id == this.authService.currentUserId(),
+                );
+                if (currentUser) {
+                    this.dataSource.data = [
+                        currentUser,
+                        ...res.data.users.filter(
+                            (user) => user.id != this.authService.currentUserId(),
+                        ),
+                    ];
+                } else {
+                    this.dataSource.data = res.data.users;
                 }
                 if (this.sort) {
                     this.dataSource.sort = this.sort;
@@ -128,22 +140,23 @@ export class EmployeesList implements OnInit {
     }
 
     ngOnInit() {
-        this.dataSource.sortingDataAccessor = (item: any, property: string) => {
+        this.dataSource.sortingDataAccessor = (item: User, property: string) => {
             switch (property) {
                 case 'f_name':
-                    return item.profile?.first_name?.toLowerCase();
+                    return item.profile?.first_name?.toLowerCase() ?? '';
                 case 'l_name':
-                    return item.profile?.last_name?.toLowerCase();
+                    return item.profile?.last_name?.toLowerCase() ?? '';
                 case 'department':
-                    return item.department_name?.toLowerCase();
+                    return item.department_name?.toLowerCase() ?? '';
                 case 'position':
-                    return item.position_name?.toLowerCase();
+                    return item.position_name?.toLowerCase() ?? '';
+                case 'email':
+                    return item.email?.toLowerCase() ?? '';
                 default:
-                    return item[property];
+                    return (item as any)[property] ?? '';
             }
         };
 
         this.fetchUsers();
-        
     }
 }

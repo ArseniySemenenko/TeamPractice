@@ -95,6 +95,7 @@ const UpdateCvProject = gql`
                 }
                 id
                 name
+                domain
                 internal_name
                 description
                 start_date
