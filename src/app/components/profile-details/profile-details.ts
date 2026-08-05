@@ -22,6 +22,7 @@ import { DepService } from '../../services/dep-service';
 import { MatSelectModule } from '@angular/material/select';
 import { PosService } from '../../services/pos-service';
 import { CvsService } from '../../services/cvs-service';
+import { UploadService } from '../../services/upload-service';
 
 @Component({
     selector: 'app-profile-details',
@@ -41,6 +42,7 @@ export class ProfileDetails {
     private readonly usersService = inject(UsersService);
     private readonly depService = inject(DepService);
     private readonly posService = inject(PosService);
+    private readonly uploadService = inject(UploadService);
 
     readonly authService = inject(AuthService);
 
@@ -73,6 +75,34 @@ export class ProfileDetails {
     isUpdateDisabled = linkedSignal(() => {
         return this.isNameInvalid() && this.isDepartmentInvalid() && this.isPositionInvalid();
     });
+
+    base64Avatar: string | null = null;
+
+    uploadChange(event: Event){
+        const input = event.target as HTMLInputElement;
+
+        if(input.files && input.files[0]){
+            console.log("uploaded!");
+            const file = input.files[0];
+            const fr = new FileReader();
+
+            fr.onload = () => {
+                this.base64Avatar = String(fr.result).split(',')[1];
+
+                this.uploadService.uploadAvatar({
+                    userId: this.authService.currentUser().id,
+                    base64: this.base64Avatar,
+                    type: file.type,
+                    size: file.size,
+                })
+                .subscribe((res) => {
+                    console.log(res);
+                })
+            }
+
+            fr.readAsDataURL(file);
+        }
+    }
 
     ngOnInit() {
         this.usersService

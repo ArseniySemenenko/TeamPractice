@@ -26,11 +26,13 @@ export class TokensService {
     readonly refreshToken = this._refreshToken.asReadonly();
 
     setTokens(access: string, refresh: string): void {
+
         this._accessToken.set(access);
         this._refreshToken.set(refresh);
     }
 
     clearTokens(): void {
+        localStorage.setItem('access' , '');
         this._accessToken.set('');
         this._refreshToken.set('');
     }

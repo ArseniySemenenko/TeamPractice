@@ -1,14 +1,92 @@
 <main class="h-screen w-full flex items-center justify-center">
-    <div class="w-[550px] min-w-[300px] px-[15px] flex flex-col gap-10 justify-around items-center">
-        <div class="flex flex-col items-center gap-8">
-            <p class="text-4xl text-white">Verify email</p>
-            
-            <button
-                matButton="filled"
-                class="rounded-none!"
+    @if (isLogined()) {
+        @if (isVerifyDone()) {
+            <div>
+                <p class="text-4xl text-white">Verify email done!</p>
+            </div>
+        } @else {
+            <div
+                class="w-[550px] min-w-[300px] px-[15px] flex flex-col gap-15 justify-around items-center"
             >
-                Confirm email address
-            </button>
+                <div class="flex flex-col items-center gap-8">
+                    <div>
+                        <p class="text-4xl text-white">Verify email</p>
+                    </div>
+
+                    <div>
+                        <mat-form-field appearance="outline" class="w-full!">
+                            <mat-label>Your code</mat-label>
+                            <input matInput [(ngModel)]="inputValue" />
+                        </mat-form-field>
+                    </div>
+
+                    @if (error() != '') {
+                        <div>
+                            <mat-error>{{ error() }}</mat-error>
+                        </div>
+                    }
+
+                    <div>
+                        <button (click)="submitVerify()" matButton="filled" class="rounded-none!">
+                            Confirm email address
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    } @else {
+        <div class="w-[50%] h-full flex flex-col gap-8 justify-center items-center">
+            <div class="flex flex-col items-center">
+                <p class="text-[35px] text-white">Login to confirm verify</p>
+            </div>
+
+            <div class="flex flex-col w-full items-center">
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Email</mat-label>
+
+                    <input
+                        [(ngModel)]="email"
+                        matInput
+                        type="email"
+                        placeholder="example@mail.com"
+                    />
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Password</mat-label>
+
+                    <input
+                        [(ngModel)]="password"
+                        matInput
+                        [type]="hidePassword() ? 'password' : 'text'"
+                        placeholder="Enter your password"
+                    />
+
+                    <button
+                        mat-icon-button
+                        matSuffix
+                        type="button"
+                        (click)="hidePassword.update((val) => !val)"
+                        class="mr-3"
+                    >
+                        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                @if (loginError() != '') {
+                    <mat-error> {{ loginError() }} </mat-error>
+                }
+            </div>
+
+            <div class="flex flex-col items-center gap-5">
+                <button matButton="filled" class="px-23! py-6!" (click)="submitForm()">
+                    LOG IN
+                </button>
+
+                <a routerLink="/forgot-password" class="text-[#767676] font-bold"
+                    >FORGOT PASSWORD</a
+                >
+            </div>
         </div>
-    </div>
+    }
 </main>

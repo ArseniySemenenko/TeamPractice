@@ -117,6 +117,52 @@ export class AuthService {
             );
     }
 
+    verify_login(args: AuthInput): Observable<LoginResult> {
+
+        return this.apollo
+            .query<LoginResult, LoginArgs>({
+                query: LOGIN,
+                variables: { auth: args },
+                fetchPolicy: 'network-only',
+            })
+            .pipe(
+                map((response) => {
+                    if (!response.data || !response.data.login) {
+                        throw new Error('Signup failed: Server returned empty data');
+                    }
+                    return response.data;
+                }),
+                tap((authResult) => {
+                    console.log('isAuth: ', this.isAuth());
+                    //this.accessToken.set(authResult.login.access_token);
+                    this.tokensService.setTokens(
+                        authResult.login.access_token,
+                        authResult.login.refresh_token,
+                    );
+
+                    this._currentUserId.set(authResult.login.user.id);
+
+                    if(this._currentUserId()){
+                        this.usersService.getUser(this._currentUserId() ?? '')
+                        .subscribe((res) => {
+                            if(res.data?.user){
+                                this.currentUser.set(res.data.user);
+                            }
+                        })
+                    }
+
+                    console.log(
+                        'token exp: ',
+                        this.jwt.getTokenExpiry(this.tokensService.accessToken()),
+                    );
+                    console.log('access token: ', this.tokensService.accessToken());
+                    console.log('refresh token: ', this.tokensService.refreshToken());
+                    console.log('isAuth: ', this.isAuth());
+                    console.log('user: ', this.currentUserId());
+                }),
+            );
+    }
+
     signup(auth: SignupArgs['auth']): Observable<any> {
         return this.apollo
             .mutate<SignupResult>({
